@@ -3,9 +3,9 @@
  * Organized by section-specific data controllers and interaction handlers.
  */
 
-// ==========================================
+// 
 // 1. DATA CONTROLLERS (Content Management)
-// ==========================================
+// 
 
 // Content for: for Viksit Bharat
 const viksitContent = {
@@ -77,9 +77,9 @@ const expertData = [
     }
 ];
 
-// ==========================================
+// 
 // 2. COUNTER ANIMATIONS
-// ==========================================
+// 
 const initCounters = () => {
     const counters = document.querySelectorAll('.counter');
     const countObserver = new IntersectionObserver(entries => {
@@ -107,9 +107,9 @@ const initCounters = () => {
     if (innovationSection) countObserver.observe(innovationSection);
 };
 
-// ==========================================
+// 
 // 3. SAGA SLIDER
-// ==========================================
+// 
 let sagaIdx = 0;
 const initSagaSlider = () => {
     const sagaImgs = document.querySelectorAll('#sagaSlides img');
@@ -127,9 +127,9 @@ const initSagaSlider = () => {
     window.changeSaga = changeSaga;
 };
 
-// ==========================================
+// 
 // 4. EXPERT REVIEWS (Enhanced Template)
-// ==========================================
+// 
 let expertIdx = 0;
 let isExpertAnimating = false;
 
@@ -186,9 +186,9 @@ const initExpertSlider = () => {
     };
 };
 
-// ==========================================
+// 
 // 5. ALERT TICKER (Continuous Loop)
-// ==========================================
+// 
 const initAlertTicker = () => {
     const ticker = document.querySelector('.alert-ticker');
     if (!ticker) return;
@@ -201,9 +201,9 @@ const initAlertTicker = () => {
     ticker.dataset.loopInitialized = 'true';
 };
 
-// ==========================================
+// 
 // 5. TESTIMONIAL SLIDER (Infinite Round)
-// ==========================================
+// 
 let testiIdx = 0;
 let isTestiJumping = false;
 
@@ -257,9 +257,9 @@ const initTestimonials = () => {
     }
 };
 
-// ==========================================
+// 
 // 6. NAVBAR SCROLL BEHAVIOR
-// ==========================================
+// 
 const initNavbarScroll = () => {
     const navbar = document.querySelector('.navbar');
     const headerTop = document.querySelector('.header-top');
@@ -282,9 +282,9 @@ const initNavbarScroll = () => {
     updateNavbarState(); // run once on load
 };
 
-// ==========================================
+// 
 // 7. INITIALIZATION
-// ==========================================
+// 
 document.addEventListener('DOMContentLoaded', () => {
     initAlertTicker();
     initCounters();
