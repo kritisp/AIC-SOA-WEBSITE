@@ -187,6 +187,21 @@ const initExpertSlider = () => {
 };
 
 // ==========================================
+// 5. ALERT TICKER (Continuous Loop)
+// ==========================================
+const initAlertTicker = () => {
+    const ticker = document.querySelector('.alert-ticker');
+    if (!ticker) return;
+
+    // Duplicate content so CSS marquee scroll feels continuous
+    const original = ticker.innerHTML.trim();
+    // Avoid duplicating multiple times if function runs twice
+    if (ticker.dataset.loopInitialized === 'true') return;
+    ticker.innerHTML = `${original} a0a0 • a0a0 ${original}`;
+    ticker.dataset.loopInitialized = 'true';
+};
+
+// ==========================================
 // 5. TESTIMONIAL SLIDER (Infinite Round)
 // ==========================================
 let testiIdx = 0;
@@ -248,15 +263,18 @@ const initTestimonials = () => {
 const initNavbarScroll = () => {
     const navbar = document.querySelector('.navbar');
     const headerTop = document.querySelector('.header-top');
+    const alertBar = document.querySelector('.alert-bar');
     if (!navbar || !headerTop) return;
 
-    const updateNavbarState = () => {
+     const updateNavbarState = () => {
         if (window.scrollY <= 5) {
             navbar.classList.remove('navbar--scrolled'); // top: gradient background
             headerTop.classList.remove('header-top--scrolled');
+            if (alertBar) alertBar.classList.remove('alert-bar--hidden'); // show alert at top
         } else {
             navbar.classList.add('navbar--scrolled'); // scrolled: white translucent
             headerTop.classList.add('header-top--scrolled');
+            if (alertBar) alertBar.classList.add('alert-bar--hidden'); // hide alert when scrolling
         }
     };
 
@@ -268,6 +286,7 @@ const initNavbarScroll = () => {
 // 7. INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
+    initAlertTicker();
     initCounters();
     initSagaSlider();
     initExpertSlider();
