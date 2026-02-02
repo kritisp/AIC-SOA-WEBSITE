@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Infrastructure | AIC SOA</title>
@@ -41,7 +42,9 @@
     .hero {
       position: relative;
       width: 100%;
-      min-height: 60vh;
+      height: 420px;
+      /* 🔥 fixed banner height */
+      max-height: 420px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -50,56 +53,62 @@
       overflow: hidden;
     }
 
+    /* Background image */
     .hero::before {
       content: "";
       position: absolute;
       inset: 0;
-      background-image: url("bannerinfra.jpg");
+      background-image: url("../assets/banners/bannerinfra.jpg");
       background-size: cover;
-      background-position: center;
+      background-position: 50% 65%;
+      /* 🔥 hide blue top */
       filter: brightness(0.6);
       transform: scale(1.03);
+      z-index: 0;
     }
 
+    /* Gradient overlay */
     .hero::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(
-        to bottom,
-        rgba(15, 23, 42, 0.1),
-        rgba(15, 23, 42, 0.75)
-      );
+      background: linear-gradient(to bottom,
+          rgba(15, 23, 42, 0.15),
+          rgba(15, 23, 42, 0.75));
+      z-index: 1;
     }
 
+    /* Content */
     .hero-content {
       position: relative;
-      z-index: 1;
+      z-index: 2;
       max-width: 960px;
-      padding: 64px 16px 80px;
+      padding: 32px 16px;
+      /* 🔥 reduced padding */
     }
 
     .hero-title {
-      font-size: clamp(2.4rem, 4vw, 3rem);
+      font-size: clamp(2.2rem, 4vw, 2.8rem);
       letter-spacing: 0.08em;
       text-transform: uppercase;
       color: var(--accent);
       font-weight: 800;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .hero-subtitle {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       text-transform: uppercase;
       letter-spacing: 0.18em;
       color: #e5e7eb;
-      margin-bottom: 26px;
+      margin-bottom: 20px;
     }
 
+    /* Stats pill */
     .hero-stats {
       display: inline-flex;
-      gap: 40px;
-      padding: 12px 24px;
+      gap: 32px;
+      padding: 10px 22px;
       border-radius: 999px;
       background: rgba(15, 23, 42, 0.8);
       backdrop-filter: blur(12px);
@@ -111,18 +120,19 @@
     }
 
     .stat-value {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: #ffffff;
     }
 
     .stat-label {
-      font-size: 0.7rem;
+      font-size: 0.65rem;
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: #d1d5db;
-      margin-top: 3px;
+      margin-top: 2px;
     }
+
 
     /* SECTIONS WRAPPER */
     .content-section {
@@ -181,6 +191,48 @@
         grid-template-columns: minmax(0, 1fr);
       }
     }
+
+    /* HERO – Mobile Fix */
+    @media (max-width: 768px) {
+      .hero {
+        height: 320px;
+        max-height: 320px;
+      }
+
+      .hero-content {
+        padding: 24px 16px;
+      }
+
+      .hero-title {
+        font-size: 2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 0.75rem;
+        letter-spacing: 0.14em;
+      }
+
+      .hero-stats {
+        gap: 18px;
+        padding: 8px 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        height: 192px;
+        max-height: 280px;
+      }
+
+      .hero::before {
+        background-position: 50% 70%;
+      }
+
+      .hero-title {
+        font-size: 1.8rem;
+      }
+    }
+
 
     .info-card {
       width: 100%;
@@ -433,6 +485,7 @@
         opacity: 0;
         transform: translateY(8px);
       }
+
       to {
         opacity: 1;
         transform: translateY(0);
@@ -487,13 +540,14 @@
     }
   </style>
 </head>
+
 <body>
   <main>
     <!-- HERO -->
     <section class="hero">
       <div class="hero-content">
         <h1 class="hero-title">Infrastructure</h1>
-        <p class="hero-subtitle">        
+        <p class="hero-subtitle">
           Fab lab for digital fabrication, rapid prototyping &amp; product development solutions
         </p>
 
@@ -1102,4 +1156,5 @@
     });
   </script>
 </body>
+
 </html>

@@ -14,7 +14,7 @@ body {
 /* ===== HERO SECTION ===== */
 .hero {
   height: 320px;
-  background: url("images/mentor-bg.jpg") center/cover no-repeat;
+  background: url("../assets/banners/mentorbanner-CW8kaPdP.jpg") center/cover no-repeat;
   position: relative;
 }
 

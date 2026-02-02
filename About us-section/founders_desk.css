@@ -15,7 +15,7 @@ body {
 /* Banner Styling */
 .founder-banner {
     background-color: #0d1b3e; /* Dark navy blue from image */
-    background-image: linear-gradient(rgba(13, 27, 62, 0.8), rgba(13, 27, 62, 0.8));
+    background-image: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),url(../assets/banners/founderbanner-CpdvZnOv.jpg);
     height: 150px;
     display: flex;
     align-items: center;
