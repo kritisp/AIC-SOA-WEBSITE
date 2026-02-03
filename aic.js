@@ -52,7 +52,7 @@ const expertData = [
         org: "Govt of India", 
         designation: "HEAD-NRDC OUTREACH OFFICE", 
         quote: "Connecting <span>research lab technology</span> to practical use, uniting stakeholders to foster entrepreneurship, innovation for societal benefits, aligns with India's vision and values for impactful collaborative ecosystems.", 
-        pic: "./assets/expert-review/bksahu-BnY5GmXA.jpg",
+        pic: "./assets/EXPERT REVIEW/bksahu-BnY5GmXA.jpg",
         video: "https://www.youtube.com/embed/s88RZ7Yfmuw"
     },
     { 
@@ -60,7 +60,7 @@ const expertData = [
         org: "RRCAT (DAE), Indore", 
         designation: "SENIOR SCIENTIST", 
         quote: "Startups are <span>innovators and risk-takers</span> and as you grow and expand, you must ensure that there is proper financial management and a proper audit.", 
-        pic: "./assets/expert-review/mkbadapanda-CmlpdCua.jpg",
+        pic: "./assets/EXPERT REVIEW/mkbadapanda-CmlpdCua.jpg",
         video: "https://www.youtube.com/embed/eUPTLa5GSx0"
     },
     { 
@@ -68,7 +68,7 @@ const expertData = [
         org: "Malavya National Institute of Technology(MNIT),Jaipur", 
         designation: "DIRECTOR", 
         quote: "The government's only idea is to be a catalyst in Startup promotion. We are hoping that via this, it becomes easier for Startups to operate worldwide.", 
-        pic: "./assets/expert-review/nppadhy-DOd2QGIa.jpg",
+        pic: "./assets/EXPERT REVIEW/nppadhy-DOd2QGIa.jpg",
         video: "https://www.youtube.com/embed/jqWlHUfXaRc"
     },
     { 
@@ -76,7 +76,7 @@ const expertData = [
         org: "Faculty in Department Of Engineering,Virginia State University", 
         designation: "PROFESSOR", 
         quote: "Technology should be accessible to everyone. Our goal is to bridge the digital divide and empower communities.", 
-        pic: "./assets/expert-review/chandansamantaray-BV628n7n.jpg",
+        pic: "./assets/EXPERT REVIEW/chandansamantaray-BV628n7n.jpg",
         video: "https://www.youtube.com/embed/QuHnH88M2mI"
     },
     { 
@@ -84,7 +84,7 @@ const expertData = [
         org: "India Meteorological Department, Government Of India", 
         designation: "DIRECTOR GENERAL OF METEORLOGY", 
         quote: " I appreciate the rapid development and high standards of the AIC-SOA Foundation for its supportive environment for budding entrepreneurs and startups. The AIC-SOA Foundation is marching a ahead for continued success in fostering knowledge, expertise, and industrial growth in India.", 
-        pic: "./assets/expert-review/mmohapatra-_IzG5hrZ.jpg" ,
+        pic: "./assets/EXPERT REVIEW/mmohapatra-_IzG5hrZ.jpg" ,
         video: "https://www.youtube.com/embed/_xYLJ07x0_I"
     },
     { 
@@ -92,7 +92,7 @@ const expertData = [
         org: "Ecuador", 
         designation: "AMBASSADOR OF ECUADOR TO INDIA", 
         quote:  "The future is now there is urgent need to act in the present to advance sustainable development goals.Sustainable practices are not an option but a necessity for long-term economic and environmental health.", 
-        pic: "./assets/expert-review/fernando-C24TBo3b.jpg" ,
+        pic: "./assets/EXPERT REVIEW/fernando-C24TBo3b.jpg" ,
         video: "https://www.youtube.com/embed/_6tP_DKmIHU"
     },
      { 
@@ -100,7 +100,7 @@ const expertData = [
         org: "Guatemala", 
         designation: "AMBASSADOR OF Guatemala TO INDIA", 
         quote:  "The AIC-SOA Foundation successfully fosters an environment for rich creativity and provides the crucial support needed to  build successful startups for the disruptive  technology in force.", 
-        pic: "./assets/expert-review/omar-D5L5ivtV.jpg" ,
+        pic: "./assets/EXPERT REVIEW/omar-D5L5ivtV.jpg" ,
         video: "https://www.youtube.com/embed/awQYOoPdqYE"
     },
     { 
@@ -108,7 +108,7 @@ const expertData = [
         org: "Kolkata", 
         designation: "Jadavpur University", 
         quote:  "This center is so good, well-planned. Young generations are really trying hard; I believe many startups from here will do very well in the future.", 
-        pic: "./assets/expert-review/Ujjwal-BOHyuDBS.jpg" ,
+        pic: "./assets/EXPERT REVIEW/Ujjwal-BOHyuDBS.jpg" ,
         video: "https://www.youtube.com/embed/n_q1tyhIiqg"
 
     },
@@ -117,7 +117,7 @@ const expertData = [
         org: "", 
         designation: "IIT,DELHI", 
         quote:  "The AIC-SOA Foundation is the perfect platform for encouraging young minds from diverse domains to collaborate and innovate. It’s an excellent initiative for building deep-tech startups, aligning perfectly with the vision of 'Viksit Bharat'", 
-        pic: "./assets/expert-review/panigrahi-CTgwxTGS.jpg",
+        pic: "./assets/EXPERT REVIEW/panigrahi-CTgwxTGS.jpg",
         video: "https://www.youtube.com/embed/TKWOgCGhcgI" 
     },
     { 
@@ -125,7 +125,7 @@ const expertData = [
         org: "Northern Ontario School Of Medicine Univeristy, Canada", 
         designation: "Jadavpur University", 
         quote:  "The AIC-SOA’s incubation in medtech, agritech, and deep tech, highlighting an AI device for rapid cervical cancer diagnosis and its broader impact on food security and Odisha.", 
-        pic: "./assets/expert-review/debiprasad-DTdjJ6Yi.jpg" ,
+        pic: "./assets/EXPERT REVIEW/debiprasad-DTdjJ6Yi.jpg" ,
         video: "https://www.youtube.com/embed/48s-n2Z3fvw"
     },
 ];
