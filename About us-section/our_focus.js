@@ -76,3 +76,53 @@ lightbox.addEventListener("click", (e) => {
 // track.addEventListener('mouseleave', () => {
 //     slideTimer = setInterval(autoSlide, 3000);
 // });
+
+// --- SMOOTH AUTO-SCROLL FOR GLIMPSES (desktop + mobile) ---
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.querySelector('.glimpses-container');
+    const track = document.querySelector('.glimpses-track');
+    if (!container || !track) return;
+
+    // Use JS scrolling for consistent auto-scroll on mobile and desktop
+    container.style.scrollBehavior = 'auto';
+
+    // Speed in pixels per millisecond
+    const speed = 0.08; // adjust for desired pace (higher = faster)
+    let rafId = null;
+    let last = null;
+    let running = true;
+
+    function step(ts) {
+        if (!last) last = ts;
+        const delta = ts - last;
+        last = ts;
+
+        if (running) {
+            container.scrollLeft += speed * delta;
+
+            // When we've scrolled half the track (HTML duplicates items for loop), rewind smoothly
+            const half = track.scrollWidth / 2;
+            if (container.scrollLeft >= half) {
+                container.scrollLeft -= half;
+            }
+        }
+        rafId = requestAnimationFrame(step);
+    }
+
+    // Start animation
+    rafId = requestAnimationFrame(step);
+
+    // Pause/resume on user interaction
+    const pause = () => { running = false; };
+    const resume = () => { running = true; last = null; };
+
+    container.addEventListener('mouseenter', pause);
+    container.addEventListener('mouseleave', resume);
+    container.addEventListener('touchstart', pause, {passive:true});
+    container.addEventListener('touchend', resume);
+    container.addEventListener('pointerdown', pause);
+    container.addEventListener('pointerup', resume);
+
+    // Keep behavior correct on resize
+    window.addEventListener('resize', () => { last = null; });
+});

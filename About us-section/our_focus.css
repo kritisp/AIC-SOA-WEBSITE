@@ -219,99 +219,84 @@ h3 {
 .glimpses-section {
     padding: 80px 20px;
     text-align: center;
+    background: #f9f9f9;
 }
 
-/* Container for the gallery */
-.glimpses-gallery {
-    display: flex;
-    justify-content: flex-start;
-    /* Keeps items aligned for the slide */
-    gap: 15px;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    /* flex-wrap: wrap; <-- REMOVED this line */
+.glimpses-section .section-heading {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+    font-weight: 700;
+    color: #0a1a3c;
 }
 
 /* Container that clips the sliding track */
 .glimpses-container {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     overflow: hidden;
-    /* This hides the images that aren't centered */
+    width: 100%;
     padding: 20px 0;
 }
 
-/* 1. Update the track to use the animation */
+/* The sliding track */
 .glimpses-track {
     display: flex;
     gap: 20px;
     width: max-content;
-    /* Ensures the track is as wide as all images combined */
-
-    /* ADD THIS LINE: This triggers the continuous movement */
-    animation: scroll 50s linear infinite;
+    animation: scroll 60s linear infinite;
 }
 
-/* 2. ADD THIS AT THE BOTTOM: This defines the sliding movement */
+/* Slide animation */
 @keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-
-    100% {
-        /* This should be half the width of your total images for a smooth loop */
-        transform: translateX(-50%);
-    }
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-/* Individual Gallery Item - FIXED RESOLUTION */
+/* Individual Gallery Item */
 .gallery-item {
     flex: 0 0 280px;
-    /* Locked width */
-    height: 220px;
-    /* Locked height */
+    height: 200px;
     border-radius: 15px;
     overflow: hidden;
     cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: #ffffff; /* ensure white behind images */
+    border: 4px solid #ffffff; /* white border while scrolling */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+    transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Ensures all images look the same resolution */
     transition: all 0.5s ease;
+    display: block;
 }
 
-/* HOVER EFFECTS (The magic happens here) */
-.gallery-item:hover {
-    transform: scale(1.08);
-    /* Zooms the whole card in slightly */
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
-    z-index: 10;
-    /* Ensures the zoomed item stays on top */
+.gallery-item:hover { transform: scale(1.08); box-shadow: 0 12px 25px rgba(0,0,0,0.12); z-index: 10; }
+.gallery-item:hover img { transform: scale(1.1); }
+
+.glimpses-container:hover .glimpses-track { animation-play-state: paused; }
+
+/* ========== MOBILE STYLES ========== */
+@media (max-width: 1024px) {
+    .gallery-item { flex: 0 0 240px; height: 180px; }
 }
 
-.gallery-item:hover img {
-    filter: grayscale(0%);
-    /* Returns color on hover */
-    transform: scale(1.1);
-    /* Adds a secondary zoom to the image itself */
-}
-
-/* Pause the auto-slide when you hover over it */
-.glimpses-container:hover .glimpses-track {
-    animation-play-state: paused;
-}
-
-/* Responsive: 2 images on mobile */
 @media (max-width: 768px) {
-    .gallery-item {
-        flex: 0 0 calc(50% - 20px);
-    }
+    .glimpses-section { padding: 50px 15px; }
+    .glimpses-section .section-heading { font-size: 2rem; margin-bottom: 30px; }
+    .glimpses-container { overflow-x: auto; overflow-y: hidden; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; }
+    .glimpses-track { animation: none; gap: 15px; padding: 10px 0; width: auto; }
+    .gallery-item { flex: 0 0 calc(50% - 7.5px); height: 150px; border-radius: 10px; }
+}
+
+@media (max-width: 480px) {
+    .glimpses-section { padding: 40px 12px; }
+    .glimpses-section .section-heading { font-size: 1.5rem; margin-bottom: 20px; }
+    .glimpses-track { gap: 12px; }
+    .gallery-item { flex: 0 0 calc(50% - 6px); height: 130px; }
 }
 
 
