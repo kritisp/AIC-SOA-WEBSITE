@@ -10,6 +10,11 @@
   height: 360px;
   position: relative;
   overflow: hidden;
+      display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding-top: 180px;
 }
 
 /* Image inside hero */

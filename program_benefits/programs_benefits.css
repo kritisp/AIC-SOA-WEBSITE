@@ -113,16 +113,35 @@ body {
 }
 
 /* ================= HERO ================= */
+/* ================= HERO FIX ================= */
+
 .hero {
-  height: 360px;
-  background: url(https://www.aicsoa.in/assets/pbanner-D58lGyJU.jpg)
-    center/cover no-repeat;
+  /* 1. Define the height on the PARENT only */
+  min-height: 480px;
+  
+  /* 2. Use Flexbox to force the overlay to fill the space */
+  display: flex;
+  position: relative;
+  
+  /* 3. Background Settings */
+  /* changed 'fixed' to 'scroll' so the image covers the box, not the screen */
+  background: url(https://www.aicsoa.in/assets/pbanner-D58lGyJU.jpg) center/cover no-repeat;
+  
+  padding: 0;
 }
 
 .hero-overlay {
+  /* 4. Make the overlay grow to fill the parent perfectly */
+  flex: 1;
+  width: 100%;
+  
+  /* 5. Remove min-height here (it's handled by the parent now) */
+  /* min-height: 480px; <--- REMOVED */
+  
   background: rgba(32, 44, 85, 0.78);
-  height: 100%;
   padding: 70px;
+  
+  /* Centering Text */
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -132,6 +151,8 @@ body {
   font-size: 44px;
   font-weight: 700;
   color: #ffffff;
+  margin-bottom: 20px;
+  line-height: 1.3;
 }
 
 .hero span {

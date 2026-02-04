@@ -43,10 +43,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    text-align: center;
     position: relative;
-    overflow: hidden;
+    padding-top: 180px;
 }
 
 /* Dark overlay */

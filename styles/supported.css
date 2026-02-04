@@ -39,12 +39,13 @@
 
 /* ================= HERO ================= */
 .hero {
-    height: 260px;
+    height: 320px;
     background: radial-gradient(circle at left, #0a4fa3, #030d3d);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    padding-top: 180px;
 }
 
 .hero::before {
