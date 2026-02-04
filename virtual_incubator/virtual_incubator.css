@@ -249,3 +249,35 @@ body {
   transform: translateX(6px);
   box-shadow: 0 12px 30px rgba(0, 85, 170, 0.25);
 }
+
+/* === Page-specific mobile menu fixes === */
+@media (max-width: 768px) {
+  /* Ensure the shared mobile panel fully sits inside the viewport on this page */
+  .mobile-menu {
+    right: 0 !important;
+    left: auto !important;
+    width: min(320px, 92vw) !important;
+    max-width: 92vw !important;
+    box-sizing: border-box; /* avoid extra overflow from padding */
+  }
+
+  /* Pin the toggle so it can't be clipped by the page layout */
+  .menu-toggle {
+    position: fixed !important;
+    top: 10px !important;
+    /* move the button left slightly more to ensure full visibility */
+    right: calc(env(safe-area-inset-right, 12px) + 48px) !important;
+    margin-right: 0 !important;
+    padding: 10px !important; /* bigger hit area */
+    border-radius: 8px !important;
+    z-index: 10001 !important;
+  }
+
+  /* Make sure the toggle bars are visible against the page hero */
+  .menu-toggle .bar { background-color: #1a237e !important; }
+
+  /* Ensure overlay and panel stack above any page elements */
+  .mobile-menu-overlay { z-index: 9999 !important; }
+  .mobile-menu { z-index: 10000 !important; }
+}
+

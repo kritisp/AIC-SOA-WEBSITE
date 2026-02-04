@@ -101,7 +101,6 @@ body {
   display: flex;
   justify-content: center;
   gap: 20px;
-  align-items: center;
 }
 
 .nav-links a {
@@ -119,61 +118,10 @@ body {
 }
 
 .gov-logo-group {
-  grid-column: 3; /* desktop: right side */
+  grid-column: 3; /* 🔥 THIS is the missing piece */
   justify-self: end;
   display: flex;
   gap: 12px;
-}
-
-/* Hamburger button (hidden on desktop) */
-.nav-toggle {
-  display: none;
-  position: relative;
-  width: 34px;
-  height: 26px;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  justify-self: end;
-  z-index: 1300;
-}
-
-.nav-toggle span {
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 3px;
-  border-radius: 999px;
-  background: var(--secondary);
-  transition:
-    transform 0.25s ease,
-    opacity 0.25s ease,
-    top 0.25s ease,
-    bottom 0.25s ease;
-}
-
-.nav-toggle span:nth-child(1) {
-  top: 0;
-}
-.nav-toggle span:nth-child(2) {
-  top: 50%;
-  transform: translateY(-50%);
-}
-.nav-toggle span:nth-child(3) {
-  bottom: 0;
-}
-
-/* X state */
-.nav-toggle.is-open span:nth-child(1) {
-  top: 50%;
-  transform: translateY(-50%) rotate(45deg);
-}
-.nav-toggle.is-open span:nth-child(2) {
-  opacity: 0;
-}
-.nav-toggle.is-open span:nth-child(3) {
-  bottom: 50%;
-  transform: translateY(50%) rotate(-45deg);
 }
 
 .gov-logo-group img {
@@ -265,11 +213,25 @@ body {
   color: #d32f2f;
 }
 
-/* Show dropdown on hover (desktop) */
-.nav-item:hover .dropdown-menu {
+/* Show dropdown on hover (desktop) or when opened via JS (click) */
+.nav-item:hover .dropdown-menu,
+.nav-item.open .dropdown-menu {
   opacity: 1;
   pointer-events: auto;
   transform: translate(-50%, 0);
+}
+
+/* Dropdown multi-column layout for long lists */
+.dropdown-menu.dropdown--cols {
+  min-width: 340px;
+  left: 0;
+  transform: translate(0, 10px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(160px, 1fr));
+  gap: 6px 8px;
+}
+.dropdown-menu.dropdown--cols a {
+  white-space: normal; /* allow wrapping inside columns */
 }
 
 /* Hidden state when user scrolls down */
@@ -309,6 +271,116 @@ body {
 .tag-new {
   background: #f39c12;
   color: white;
+}
+
+/* --- Mobile Hamburger Menu (<=768px) --- */
+.menu-toggle {
+  display: none; /* shown only on small screens */
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 44px;
+  height: 40px;
+  align-self: center;
+  justify-self: end;
+  position: relative;
+}
+.menu-toggle:focus { outline: 2px solid rgba(46,49,146,0.2); outline-offset: 2px; }
+.menu-toggle .bar {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--secondary);
+  margin: 4px auto;
+  transition: transform 0.28s ease, opacity 0.28s ease;
+  border-radius: 2px;
+}
+.menu-toggle.open .bar:nth-child(1) { transform: translateY(8px) rotate(45deg);} 
+.menu-toggle.open .bar:nth-child(2) { opacity: 0;} 
+.menu-toggle.open .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg);} 
+
+.mobile-menu-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.28s ease;
+  z-index: 1100;
+}
+.mobile-menu-overlay.open { opacity: 1; visibility: visible; }
+
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 320px;
+  max-width: calc(100% - 48px);
+  height: 100vh;
+  background: linear-gradient(180deg, rgba(255,255,255,0.98), #fff);
+  box-shadow: -8px 0 24px rgba(0,0,0,0.18);
+  transform: translateX(100%);
+  transition: transform 0.36s cubic-bezier(0.22,1,0.36,1);
+  z-index: 1200;
+  padding: 22px 18px;
+  overflow-y: auto;
+}
+.mobile-menu.open { transform: translateX(0); }
+
+.mobile-menu .mobile-nav { display: flex; flex-direction: column; gap: 6px; }
+.mobile-menu .mobile-nav a {
+  color: var(--secondary);
+  text-decoration: none;
+  font-weight: 700;
+  padding: 12px 10px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+}
+.mobile-menu .mobile-nav a:hover { background: rgba(243,156,18,0.08); color: #d32f2f; }
+
+.mobile-menu .mobile-section-title { color: #333; font-weight: 800; margin-top: 10px; margin-bottom: 6px; font-size: 14px; }
+.mobile-menu .mobile-sublinks { margin-left: 8px; display: flex; flex-direction: column; gap: 4px; }
+
+/* Mobile accordion for dropdowns inside mobile menu */
+.mobile-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 6px;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-weight: 800;
+  color: var(--secondary);
+  cursor: pointer;
+  border-radius: 8px;
+}
+.mobile-accordion-header .chev {
+  transition: transform 0.28s ease;
+  color: var(--secondary);
+}
+.mobile-accordion-header.expanded .chev { transform: rotate(90deg); }
+
+.mobile-accordion-panel {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.34s cubic-bezier(0.22,1,0.36,1), padding 0.22s;
+  padding: 0 6px;
+}
+.mobile-accordion-panel.open { max-height: 600px; padding-top: 8px; padding-bottom: 8px; }
+
+.mobile-sublink { display: block; padding: 8px 8px; border-radius: 6px; color: var(--secondary); text-decoration: none; font-weight:700; }
+.mobile-sublink:hover { background: rgba(243,156,18,0.06); color: #d32f2f; }
+
+.mobile-visit-link { display:inline-block; font-weight:700; color: var(--secondary); padding:8px 6px; }
+
+
+@media (max-width: 768px) {
+  .nav-links { display: none !important; }
+  .menu-toggle { display: block; }
+  .gov-logo-group { display: none; }
+  .navbar { padding: 8px 16px; grid-template-columns: auto 1fr auto; }
 }
 
 @keyframes ticker {
@@ -1269,8 +1341,88 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+  .main-footer {
+    padding: 36px 16px;
+    font-size: 14px;
+  }
+
   .footer-container {
     flex-direction: column;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .footer-section {
+    min-width: auto;
+    width: 100%;
+    padding: 12px 0;
+    box-sizing: border-box;
+    text-align: center;
+  }
+
+  .footer-heading {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .heading-underline {
+    margin: 0 auto 16px;
+  }
+
+  .footer-description {
+    margin: 0 0 16px;
+  }
+
+  .social-icons {
+    justify-content: center;
+    margin-top: 8px;
+  }
+
+  .social-icons a {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .links-grid {
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .links-grid ul {
+    display: inline-block;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+  }
+
+  .links-grid ul li {
+    margin-bottom: 10px;
+  }
+
+  .contact-item {
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .contact-item a {
+    display: inline-block;
+  }
+
+  /* responsive map if present */
+  .footer-map iframe { max-width: 100%; height: 180px; }
+
+  /* subtle separators between stacked sections */
+  .footer-container > .footer-section + .footer-section {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding-top: 18px;
+  }
+
+  .footer-copyright {
+    text-align: center;
+    padding-top: 12px;
+    font-size: 13px;
   }
 }
 
@@ -1302,77 +1454,10 @@ body {
 
 /* Media Queries */
 @media (max-width: 1100px) {
-  .navbar {
-    grid-template-columns: auto auto;
-    padding: 6px 18px;
-  }
-
-  .gov-logo-group {
+  .nav-links,
+  .gov-logos {
     display: none;
   }
-
-  .nav-toggle {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .nav-links {
-    position: fixed;
-    inset: 60px 0 auto 0;
-    background: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 10px 18px 18px;
-    gap: 6px;
-    transform: translateY(-12px);
-    opacity: 0;
-    pointer-events: none;
-    transition:
-      opacity 0.25s ease,
-      transform 0.25s ease;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
-  }
-
-  .nav-links.is-open {
-    opacity: 1;
-    transform: translateY(0);
-    pointer-events: auto;
-  }
-
-  .nav-item {
-    width: 100%;
-  }
-
-  .nav-link {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 8px 4px;
-    font-size: 16px;
-  }
-
-  /* Stack dropdowns full-width on mobile */
-  .dropdown-menu {
-    position: static;
-    transform: none;
-    box-shadow: none;
-    background: transparent;
-    padding: 0 0 4px 16px;
-    border-radius: 0;
-    display: block;        /* always visible under its parent on mobile */
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .dropdown-menu a {
-    padding: 4px 0;
-    font-size: 14px;
-  }
-
   .saga-container {
     flex-direction: column;
     align-items: center;

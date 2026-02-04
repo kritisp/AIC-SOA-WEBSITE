@@ -52,7 +52,7 @@ const expertData = [
         org: "Govt of India", 
         designation: "HEAD-NRDC OUTREACH OFFICE", 
         quote: "Connecting <span>research lab technology</span> to practical use, uniting stakeholders to foster entrepreneurship, innovation for societal benefits, aligns with India's vision and values for impactful collaborative ecosystems.", 
-        pic: "./assets/EXPERT REVIEW/bksahu-BnY5GmXA.jpg",
+        pic: "./assets/expert-review/bksahu-BnY5GmXA.jpg",
         video: "https://www.youtube.com/embed/s88RZ7Yfmuw"
     },
     { 
@@ -60,7 +60,7 @@ const expertData = [
         org: "RRCAT (DAE), Indore", 
         designation: "SENIOR SCIENTIST", 
         quote: "Startups are <span>innovators and risk-takers</span> and as you grow and expand, you must ensure that there is proper financial management and a proper audit.", 
-        pic: "./assets/EXPERT REVIEW/mkbadapanda-CmlpdCua.jpg",
+        pic: "./assets/expert-review/mkbadapanda-CmlpdCua.jpg",
         video: "https://www.youtube.com/embed/eUPTLa5GSx0"
     },
     { 
@@ -68,7 +68,7 @@ const expertData = [
         org: "Malavya National Institute of Technology(MNIT),Jaipur", 
         designation: "DIRECTOR", 
         quote: "The government's only idea is to be a catalyst in Startup promotion. We are hoping that via this, it becomes easier for Startups to operate worldwide.", 
-        pic: "./assets/EXPERT REVIEW/nppadhy-DOd2QGIa.jpg",
+        pic: "./assets/expert-review/nppadhy-DOd2QGIa.jpg",
         video: "https://www.youtube.com/embed/jqWlHUfXaRc"
     },
     { 
@@ -76,7 +76,7 @@ const expertData = [
         org: "Faculty in Department Of Engineering,Virginia State University", 
         designation: "PROFESSOR", 
         quote: "Technology should be accessible to everyone. Our goal is to bridge the digital divide and empower communities.", 
-        pic: "./assets/EXPERT REVIEW/chandansamantaray-BV628n7n.jpg",
+        pic: "./assets/expert-review/chandansamantaray-BV628n7n.jpg",
         video: "https://www.youtube.com/embed/QuHnH88M2mI"
     },
     { 
@@ -84,7 +84,7 @@ const expertData = [
         org: "India Meteorological Department, Government Of India", 
         designation: "DIRECTOR GENERAL OF METEORLOGY", 
         quote: " I appreciate the rapid development and high standards of the AIC-SOA Foundation for its supportive environment for budding entrepreneurs and startups. The AIC-SOA Foundation is marching a ahead for continued success in fostering knowledge, expertise, and industrial growth in India.", 
-        pic: "./assets/EXPERT REVIEW/mmohapatra-_IzG5hrZ.jpg" ,
+        pic: "./assets/expert-review/mmohapatra-_IzG5hrZ.jpg" ,
         video: "https://www.youtube.com/embed/_xYLJ07x0_I"
     },
     { 
@@ -92,7 +92,7 @@ const expertData = [
         org: "Ecuador", 
         designation: "AMBASSADOR OF ECUADOR TO INDIA", 
         quote:  "The future is now there is urgent need to act in the present to advance sustainable development goals.Sustainable practices are not an option but a necessity for long-term economic and environmental health.", 
-        pic: "./assets/EXPERT REVIEW/fernando-C24TBo3b.jpg" ,
+        pic: "./assets/expert-review/fernando-C24TBo3b.jpg" ,
         video: "https://www.youtube.com/embed/_6tP_DKmIHU"
     },
      { 
@@ -100,7 +100,7 @@ const expertData = [
         org: "Guatemala", 
         designation: "AMBASSADOR OF Guatemala TO INDIA", 
         quote:  "The AIC-SOA Foundation successfully fosters an environment for rich creativity and provides the crucial support needed to  build successful startups for the disruptive  technology in force.", 
-        pic: "./assets/EXPERT REVIEW/omar-D5L5ivtV.jpg" ,
+        pic: "./assets/expert-review/omar-D5L5ivtV.jpg" ,
         video: "https://www.youtube.com/embed/awQYOoPdqYE"
     },
     { 
@@ -108,7 +108,7 @@ const expertData = [
         org: "Kolkata", 
         designation: "Jadavpur University", 
         quote:  "This center is so good, well-planned. Young generations are really trying hard; I believe many startups from here will do very well in the future.", 
-        pic: "./assets/EXPERT REVIEW/Ujjwal-BOHyuDBS.jpg" ,
+        pic: "./assets/expert-review/Ujjwal-BOHyuDBS.jpg" ,
         video: "https://www.youtube.com/embed/n_q1tyhIiqg"
 
     },
@@ -117,7 +117,7 @@ const expertData = [
         org: "", 
         designation: "IIT,DELHI", 
         quote:  "The AIC-SOA Foundation is the perfect platform for encouraging young minds from diverse domains to collaborate and innovate. It’s an excellent initiative for building deep-tech startups, aligning perfectly with the vision of 'Viksit Bharat'", 
-        pic: "./assets/EXPERT REVIEW/panigrahi-CTgwxTGS.jpg",
+        pic: "./assets/expert-review/panigrahi-CTgwxTGS.jpg",
         video: "https://www.youtube.com/embed/TKWOgCGhcgI" 
     },
     { 
@@ -125,7 +125,7 @@ const expertData = [
         org: "Northern Ontario School Of Medicine Univeristy, Canada", 
         designation: "Jadavpur University", 
         quote:  "The AIC-SOA’s incubation in medtech, agritech, and deep tech, highlighting an AI device for rapid cervical cancer diagnosis and its broader impact on food security and Odisha.", 
-        pic: "./assets/EXPERT REVIEW/debiprasad-DTdjJ6Yi.jpg" ,
+        pic: "./assets/expert-review/debiprasad-DTdjJ6Yi.jpg" ,
         video: "https://www.youtube.com/embed/48s-n2Z3fvw"
     },
 ];
@@ -165,19 +165,135 @@ const initCounters = () => {
 // 
 let sagaIdx = 0;
 const initSagaSlider = () => {
-    const sagaImgs = document.querySelectorAll('#sagaSlides img');
+    const sagaImgs = Array.from(document.querySelectorAll('#sagaSlides img'));
     if (sagaImgs.length === 0) return;
-    
-    const changeSaga = (n) => {
-        sagaImgs[sagaIdx].classList.remove('active');
-        sagaIdx = (sagaIdx + n + sagaImgs.length) % sagaImgs.length;
-        sagaImgs[sagaIdx].classList.add('active');
+
+    // Ensure images are display:block and begin preloading
+    sagaImgs.forEach(img => {
+        img.style.display = 'block';
+        img.style.visibility = 'hidden';
+        img.style.opacity = '0';
+        img.style.zIndex = '2';
+        // prompt browser to fetch
+        const pre = new Image();
+        pre.src = img.src;
+        if (img.complete) img.style.visibility = 'visible';
+        else img.addEventListener('load', () => img.style.visibility = 'visible');
+    });
+
+    const showImage = (idx) => {
+        sagaImgs.forEach((img, i) => {
+            if (i === idx) {
+                img.classList.add('active');
+                img.style.opacity = '1';
+                img.style.visibility = 'visible';
+                img.style.zIndex = '3';
+            } else {
+                img.classList.remove('active');
+                img.style.opacity = '0';
+                img.style.zIndex = '2';
+            }
+        });
     };
-    
-    setInterval(() => changeSaga(1), 5000);
-    
-    // Exposed for navigation buttons
-    window.changeSaga = changeSaga;
+
+    sagaIdx = 0;
+
+    // Show first image ASAP
+    requestAnimationFrame(() => showImage(sagaIdx));
+
+    // Fallback creation (only if images never paint): creates background layers + preloader
+    const container = document.querySelector('.saga-slider-container');
+    let mobileBg = null;
+    const createMobileBgFallback = (initialIdx = 0) => {
+        if (!container || mobileBg) return;
+        const pre = document.createElement('div');
+        pre.className = 'saga-preloader';
+        pre.innerHTML = '<div class="spinner"></div>';
+        container.appendChild(pre);
+
+        // hide images so fallback is authoritative
+        sagaImgs.forEach(img => { img.style.display = 'none'; });
+
+        const layerA = document.createElement('div');
+        const layerB = document.createElement('div');
+        layerA.className = 'saga-mobile-bg';
+        layerB.className = 'saga-mobile-bg';
+        container.appendChild(layerA);
+        container.appendChild(layerB);
+
+        const tmp = new Image();
+        tmp.onload = () => {
+            layerA.style.backgroundImage = `url('${sagaImgs[initialIdx].src}')`;
+            layerA.classList.add('active');
+            if (pre.parentNode) pre.parentNode.removeChild(pre);
+        };
+        tmp.onerror = () => { if (pre.parentNode) pre.parentNode.removeChild(pre); };
+        tmp.src = sagaImgs[initialIdx].src;
+
+        mobileBg = { active: layerA, inactive: layerB };
+    };
+
+    // Check painting; if images don't appear, use the fallback (checks twice)
+    const areImagesPainted = () => sagaImgs.some(img => {
+        try {
+            const cs = window.getComputedStyle(img);
+            return img.naturalWidth > 0 && cs.display !== 'none' && cs.visibility !== 'hidden' && parseFloat(cs.opacity) > 0;
+        } catch (e) { return false; }
+    });
+
+    // Try to repair common deployment path/case issues before falling back
+    const tryFixBrokenSagaSrcs = async () => {
+        const broken = sagaImgs.filter(img => img.naturalWidth === 0);
+        if (broken.length === 0) return;
+
+        await Promise.all(broken.map(img => new Promise(res => {
+            try {
+                const src = img.src || '';
+                // common variant: lowercase the folder name (Saga -> saga)
+                const alt = src.replace('/Saga/', '/saga/');
+                if (alt === src) return res(false);
+
+                const tmp = new Image();
+                tmp.onload = () => {
+                    img.src = alt;
+                    img.style.visibility = 'visible';
+                    res(true);
+                };
+                tmp.onerror = () => res(false);
+                tmp.src = alt;
+            } catch (e) { res(false); }
+        })));
+    };
+
+    setTimeout(async () => { await tryFixBrokenSagaSrcs(); if (!areImagesPainted()) createMobileBgFallback(0); }, 600);
+    setTimeout(async () => { await tryFixBrokenSagaSrcs(); if (!areImagesPainted()) createMobileBgFallback(0); }, 1200);
+
+    const changeSaga = (n) => {
+        const next = (sagaIdx + n + sagaImgs.length) % sagaImgs.length;
+
+        if (mobileBg) {
+            const { active, inactive } = mobileBg;
+            inactive.style.backgroundImage = `url('${sagaImgs[next].src}')`;
+            requestAnimationFrame(() => {
+                inactive.classList.add('active');
+                active.classList.remove('active');
+                mobileBg.active = inactive;
+                mobileBg.inactive = active;
+            });
+            sagaIdx = next;
+            return;
+        }
+
+        // Make sure next image is visible before transition
+        sagaImgs[next].style.visibility = 'visible';
+        requestAnimationFrame(() => { showImage(next); sagaIdx = next; });
+    };
+
+    // Auto-advance
+    const intervalId = setInterval(() => changeSaga(1), 5000);
+
+    // Expose navigation
+    window.changeSaga = (n) => { clearInterval(intervalId); changeSaga(n); };
 };
 
 // 
@@ -352,61 +468,64 @@ const initTestimonials = () => {
 };
 
 // 
-// 6. NAVBAR SCROLL BEHAVIOR + MOBILE TOGGLING
+// 6. NAVBAR SCROLL BEHAVIOR
 // 
 const initNavbarScroll = () => {
     const navbar = document.querySelector('.navbar');
     const headerTop = document.querySelector('.header-top');
     const alertBar = document.querySelector('.alert-bar');
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks = document.querySelector('.nav-links');
     if (!navbar || !headerTop) return;
 
-    const updateNavbarState = () => {
+     const updateNavbarState = () => {
         if (window.scrollY <= 5) {
-            navbar.classList.remove('navbar--scrolled');
+            navbar.classList.remove('navbar--scrolled'); // top: gradient background
             headerTop.classList.remove('header-top--scrolled');
-            if (alertBar) alertBar.classList.remove('alert-bar--hidden');
+            if (alertBar) alertBar.classList.remove('alert-bar--hidden'); // show alert at top
         } else {
-            navbar.classList.add('navbar--scrolled');
+            navbar.classList.add('navbar--scrolled'); // scrolled: white translucent
             headerTop.classList.add('header-top--scrolled');
-            if (alertBar) alertBar.classList.add('alert-bar--hidden');
+            if (alertBar) alertBar.classList.add('alert-bar--hidden'); // hide alert when scrolling
         }
     };
 
     window.addEventListener('scroll', updateNavbarState, { passive: true });
-    updateNavbarState();
+    updateNavbarState(); // run once on load
+};
 
-    // Mobile hamburger toggle
-    if (navToggle && navLinks) {
-        navToggle.addEventListener('click', () => {
-            const isOpen = navLinks.classList.toggle('is-open');
-            navToggle.classList.toggle('is-open', isOpen);
-        });
+// Desktop dropdown click/hover behavior + multi-column detection
+const initDropdownBehavior = () => {
+    const navItems = document.querySelectorAll('.nav-item');
+    if (!navItems || navItems.length === 0) return;
 
-        // Expand/collapse dropdowns on mobile tap
-        navLinks.querySelectorAll('.nav-item').forEach(item => {
-            const trigger = item.querySelector('.nav-link');
-            if (!trigger) return;
-            trigger.addEventListener('click', (e) => {
-                // Only intercept on narrow screens
-                if (window.innerWidth > 1100) return;
-                const hasDropdown = item.querySelector('.dropdown-menu');
-                if (!hasDropdown) return;
-                e.preventDefault();
-                item.classList.toggle('nav-item-open');
-            });
-        });
+    const closeAll = () => navItems.forEach(i => i.classList.remove('open'));
 
-        // Close menu when clicking outside on mobile
-        document.addEventListener('click', (e) => {
-            if (window.innerWidth > 1100) return;
-            if (!navLinks.contains(e.target) && !navToggle.contains(e.target)) {
-                navLinks.classList.remove('is-open');
-                navToggle.classList.remove('is-open');
-            }
+    navItems.forEach(item => {
+        const link = item.querySelector('.nav-link');
+        const dropdown = item.querySelector('.dropdown-menu');
+        if (!link || !dropdown) return;
+
+        // accessibility
+        link.setAttribute('aria-haspopup', 'true');
+        link.setAttribute('aria-expanded', 'false');
+
+        // toggle on click for desktop (prevents default for non-navigable '#')
+        link.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) return; // mobile handled separately
+            e.preventDefault();
+            const opened = item.classList.toggle('open');
+            link.setAttribute('aria-expanded', opened ? 'true' : 'false');
+            if (opened) navItems.forEach(i => { if (i !== item) i.classList.remove('open'); });
         });
-    }
+    });
+
+    document.addEventListener('click', (e) => { if (!e.target.closest('.nav-item')) closeAll(); });
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeAll(); });
+
+    // Add multi-column class to dropdowns with many links
+    document.querySelectorAll('.dropdown-menu').forEach(drop => {
+        const count = drop.querySelectorAll('a').length;
+        if (count >= 6) drop.classList.add('dropdown--cols');
+    });
 };
 
 // 
@@ -425,7 +544,117 @@ const initAlertTicker = () => {
 
 
 // 
-// 7. INITIALIZATION
+// 7. MOBILE MENU (RESPONSIVE)
+// 
+const initMobileMenu = () => {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+
+    // Avoid double-initialization if markup already present
+    if (document.querySelector('.mobile-menu')) return;
+
+    // Create toggle button (if not already present)
+    let btn = document.querySelector('.menu-toggle');
+    if (!btn) {
+        btn = document.createElement('button');
+        btn.className = 'menu-toggle';
+        btn.setAttribute('aria-label', 'Toggle menu');
+        btn.setAttribute('aria-expanded', 'false');
+        btn.innerHTML = '<span class="bar"></span><span class="bar"></span><span class="bar"></span>';
+        navbar.appendChild(btn);
+    }
+
+    // Create overlay and panel
+    const overlay = document.createElement('div');
+    overlay.className = 'mobile-menu-overlay';
+    document.body.appendChild(overlay);
+
+    const panel = document.createElement('aside');
+    panel.className = 'mobile-menu';
+    panel.setAttribute('aria-hidden', 'true');
+    panel.innerHTML = '<nav class="mobile-nav" aria-label="Mobile Navigation"></nav>';
+    document.body.appendChild(panel);
+
+    const mobileNav = panel.querySelector('.mobile-nav');
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        const items = Array.from(navLinks.querySelectorAll('.nav-item'));
+        items.forEach(item => {
+            const trigger = item.querySelector('.nav-link');
+            const dropdown = item.querySelector('.dropdown-menu');
+            const label = trigger ? trigger.textContent.trim() : '';
+
+            if (dropdown) {
+                // Accordion header
+                const header = document.createElement('button');
+                header.className = 'mobile-accordion-header';
+                header.type = 'button';
+                header.setAttribute('aria-expanded', 'false');
+                header.innerHTML = `<span class="mobile-accordion-label">${label}</span><span class="chev">▸</span>`;
+                mobileNav.appendChild(header);
+
+                // Panel containing sublinks
+                const panelDiv = document.createElement('div');
+                panelDiv.className = 'mobile-accordion-panel';
+                dropdown.querySelectorAll('a').forEach(sa => {
+                    const subLink = sa.cloneNode(true);
+                    subLink.classList.add('mobile-sublink');
+                    panelDiv.appendChild(subLink);
+                });
+                mobileNav.appendChild(panelDiv);
+
+                header.addEventListener('click', () => {
+                    const expanded = header.classList.toggle('expanded');
+                    header.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+                    if (expanded) panelDiv.classList.add('open'); else panelDiv.classList.remove('open');
+                });
+
+            } else if (trigger) {
+                // plain link
+                const a = trigger.cloneNode(true);
+                a.classList.remove('nav-link');
+                mobileNav.appendChild(a);
+            }
+        });
+    }
+
+    const openMenu = () => {
+        btn.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+        panel.classList.add('open');
+        overlay.classList.add('open');
+        panel.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    };
+    const closeMenu = () => {
+        btn.classList.remove('open');
+        btn.setAttribute('aria-expanded', 'false');
+        panel.classList.remove('open');
+        overlay.classList.remove('open');
+        panel.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+    };
+
+    btn.addEventListener('click', (e) => {
+        const opened = panel.classList.contains('open');
+        if (opened) closeMenu(); else openMenu();
+    });
+
+    overlay.addEventListener('click', closeMenu);
+
+    // Close menu when any mobile link is clicked
+    panel.addEventListener('click', (e) => {
+        const a = e.target.closest('a');
+        if (a) closeMenu();
+    });
+
+    // Close on Escape or on window resize to desktop
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && panel.classList.contains('open')) closeMenu(); });
+    window.addEventListener('resize', () => { if (window.innerWidth > 768 && panel.classList.contains('open')) closeMenu(); });
+};
+
+// 
+// 8. INITIALIZATION
 // 
 document.addEventListener('DOMContentLoaded', () => {
     initAlertTicker();
@@ -435,7 +664,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initExpertVideoModal();
     initTestimonials();
     initNavbarScroll();
-    
+    initMobileMenu();
+
     // Handle Window Resize for Sliders
     window.addEventListener('resize', () => {
         testiIdx = 0;

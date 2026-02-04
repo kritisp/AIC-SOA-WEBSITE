@@ -12,13 +12,17 @@ body {
 
 /* HERO */
 .hero {
+  height: 360px; /* shorter hero like Program Benefits */
   background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
     url('https://images.unsplash.com/photo-1553877522-43269d4ea984');
   background-size: cover;
   background-position: center;
   color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  padding: 80px 20px;
+  padding: 0 20px; /* keep some horizontal padding */
 }
 
 .hero h1 {
@@ -32,7 +36,7 @@ body {
 .hero p {
   font-size: 18px;
   margin-top: 10px;
-}
+} 
 
 /* INCUBATION BOX */
 .incubation-box {
