@@ -543,29 +543,18 @@ const initAlertTicker = () => {
 };
 
 //
-// 6.6 MARQUEE + ALERT HOVER CONTROL
-//
+// 6.6 ALERT HOVER CONTROL
+// Only controls the alert ticker, not the logo marquees
 const initHoverPauseControls = () => {
-    // Pause scrolling logo marquees on hover
-    document.querySelectorAll('.marquee-content').forEach(strip => {
-        strip.addEventListener('mouseenter', () => {
-            strip.style.animationPlayState = 'paused';
-        });
-        strip.addEventListener('mouseleave', () => {
-            strip.style.animationPlayState = 'running';
-        });
-    });
-
-    // Pause alert ticker on hover
     const ticker = document.querySelector('.alert-ticker');
-    if (ticker) {
-        ticker.addEventListener('mouseenter', () => {
-            ticker.style.animationPlayState = 'paused';
-        });
-        ticker.addEventListener('mouseleave', () => {
-            ticker.style.animationPlayState = 'running';
-        });
-    }
+    if (!ticker) return;
+
+    ticker.addEventListener('mouseenter', () => {
+        ticker.style.animationPlayState = 'paused';
+    });
+    ticker.addEventListener('mouseleave', () => {
+        ticker.style.animationPlayState = 'running';
+    });
 };
 
 
