@@ -132,3 +132,54 @@
     padding: 20px;
     font-size: 14px;
 }
+
+/* Mobile responsive styles */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 8px 16px;
+    grid-template-columns: auto 1fr auto;
+    position: relative;
+  }
+
+  .logo-container {
+    flex-shrink: 0;
+    z-index: 1301;
+  }
+
+  .gov-logo-group {
+    display: flex;
+    position: absolute;
+    right: 76px;
+    top: 50%;
+    transform: translateY(-50%);
+    gap: 8px;
+    align-items: center;
+    z-index: 1200;
+  }
+
+  .gov-logo-group img {
+    height: 40px;
+    width: auto;
+  }
+
+  .menu-toggle {
+    display: block;
+    position: relative;
+    z-index: 1300;
+    margin-left: auto;
+  }
+
+  .hero {
+    height: 250px;
+    padding-top: 100px;
+  }
+
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .partners-container {
+    padding: 40px 20px;
+    grid-template-columns: 1fr;
+  }
+}
