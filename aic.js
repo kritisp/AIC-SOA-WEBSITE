@@ -303,6 +303,7 @@ const initSagaSlider = () => {
 
 let expertIdx = 0;
 let isExpertAnimating = false;
+let expertInterval = null;
 
 const showExpert = (n) => {
     if (isExpertAnimating) return;
@@ -362,20 +363,44 @@ const initExpertSlider = () => {
         dot.className = i === 0 ? 'nav-dot active' : 'nav-dot';
         dot.onclick = () => {
             if (!isExpertAnimating && expertIdx !== i) {
+                restartExpertAuto();
                 showExpert(i);
             }
         };
         expertDotBox.appendChild(dot);
     });
 
-    // Expose navigation controls
-    window.changeExpert = (n) => {
+    const stepExpert = (delta) => {
         if (isExpertAnimating) return;
-        showExpert((expertIdx + n + expertData.length) % expertData.length);
+        const next = (expertIdx + delta + expertData.length) % expertData.length;
+        showExpert(next);
     };
 
-    // Load first expert properly (important)
+    const restartExpertAuto = () => {
+        if (expertInterval) clearInterval(expertInterval);
+        expertInterval = setInterval(() => stepExpert(1), 8000);
+    };
+
+    // Expose navigation controls for prev/next buttons
+    window.changeExpert = (n) => {
+        restartExpertAuto();
+        stepExpert(n);
+    };
+
+    // Load first expert properly (important) and start auto-rotation
     showExpert(0);
+    restartExpertAuto();
+
+    // Pause auto-scroll on hover over the expert card/area
+    const expertSection = document.querySelector('.expert-slider-outer') || document.querySelector('.expert-reviews-section');
+    if (expertSection) {
+        expertSection.addEventListener('mouseenter', () => {
+            if (expertInterval) clearInterval(expertInterval);
+        });
+        expertSection.addEventListener('mouseleave', () => {
+            restartExpertAuto();
+        });
+    }
 };
 
 // 
@@ -542,6 +567,59 @@ const initAlertTicker = () => {
     ticker.dataset.loopInitialized = 'true';
 };
 
+// 6.55 ALERT POPUP MODAL (popup.jpeg)
+const initAlertPopupModal = () => {
+    const alertBar = document.querySelector('.alert-bar');
+    if (!alertBar) return;
+
+    // Create modal structure once
+    let modal = document.querySelector('.alert-image-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.className = 'alert-image-modal';
+        modal.innerHTML = `
+            <div class="alert-image-overlay"></div>
+            <div class="alert-image-box">
+                <button class="alert-image-close" aria-label="Close alert image">&times;</button>
+                <img src="./popup.jpeg" alt="Important announcement" />
+            </div>
+        `;
+        document.body.appendChild(modal);
+    }
+
+    const overlay = modal.querySelector('.alert-image-overlay');
+    const closeBtn = modal.querySelector('.alert-image-close');
+
+    const openModal = () => {
+        modal.classList.add('active');
+    };
+
+    const closeModal = () => {
+        modal.classList.remove('active');
+    };
+
+    // Open on click or hover over the alert bar
+    alertBar.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    });
+    alertBar.addEventListener('mouseenter', () => {
+        openModal();
+    });
+    // Ensure it works on touch devices as well
+    alertBar.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        openModal();
+    }, { passive: false });
+
+    // Close interactions
+    if (overlay) overlay.addEventListener('click', closeModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+};
+
 //
 // 6.6 ALERT HOVER CONTROL
 // Only controls the alert ticker, not the logo marquees
@@ -554,6 +632,31 @@ const initHoverPauseControls = () => {
     });
     ticker.addEventListener('mouseleave', () => {
         ticker.style.animationPlayState = 'running';
+    });
+};
+
+// 6.7 SCROLL-TO-TOP FLOATING BUTTON
+const initScrollTopButton = () => {
+    // Create button once for the whole site
+    let btn = document.querySelector('.scroll-top-btn');
+    if (!btn) {
+        btn = document.createElement('button');
+        btn.className = 'scroll-top-btn';
+        btn.setAttribute('aria-label', 'Scroll to top');
+        btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        document.body.appendChild(btn);
+    }
+
+    const toggleVisibility = () => {
+        if (window.scrollY > 300) btn.classList.add('show');
+        else btn.classList.remove('show');
+    };
+
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    toggleVisibility();
+
+    btn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 };
 
@@ -680,7 +783,9 @@ document.addEventListener('DOMContentLoaded', () => {
     initTestimonials();
     initNavbarScroll();
     initMobileMenu();
+    initAlertPopupModal();
     initHoverPauseControls();
+    initScrollTopButton();
 
     // Handle Window Resize for Sliders
     window.addEventListener('resize', () => {

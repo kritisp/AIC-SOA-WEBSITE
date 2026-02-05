@@ -193,6 +193,7 @@ body {
     max-height 0.3s ease,
     padding 0.3s ease;
   max-height: 40px;
+  cursor: pointer; /* indicate tap/click for popup */
 }
 
 /* Top-level nav links (Home + dropdown triggers) */
@@ -1056,6 +1057,72 @@ body {
   animation: scaleIn 0.35s ease;
 }
 
+/* ---------- Generic Alert Image Modal (popup.jpeg) ---------- */
+.alert-image-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.alert-image-modal.active {
+  display: flex;
+}
+
+.alert-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.alert-image-box {
+  position: relative;
+  width: 420px;
+  max-width: 90vw;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  z-index: 2;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  animation: scaleIn 0.35s ease;
+}
+
+.alert-image-box img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+@media (max-width: 480px) {
+  .alert-image-box {
+    width: 90vw;
+  }
+}
+
+.alert-image-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #fff;
+  font-size: 26px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.alert-image-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
 /* Animation */
 @keyframes scaleIn {
   from {
@@ -1491,6 +1558,50 @@ body {
     text-align: center;
     padding-top: 12px;
     font-size: 13px;
+  }
+}
+
+/* Floating scroll-to-top button */
+.scroll-top-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 28px;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, var(--secondary), var(--terracotta));
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  cursor: pointer;
+  z-index: 1400;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s ease;
+}
+.scroll-top-btn.show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+.scroll-top-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(0,0,0,0.3);
+}
+.scroll-top-btn i {
+  pointer-events: none;
+}
+@media (max-width: 768px) {
+  .scroll-top-btn {
+    right: 16px;
+    bottom: 20px;
+    width: 42px;
+    height: 42px;
   }
 }
 
