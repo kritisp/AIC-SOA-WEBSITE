@@ -598,19 +598,11 @@ const initAlertPopupModal = () => {
         modal.classList.remove('active');
     };
 
-    // Open on click or hover over the alert bar
+    // Open on click only (disable hover auto-open)
     alertBar.addEventListener('click', (e) => {
         e.preventDefault();
         openModal();
     });
-    alertBar.addEventListener('mouseenter', () => {
-        openModal();
-    });
-    // Ensure it works on touch devices as well
-    alertBar.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        openModal();
-    }, { passive: false });
 
     // Close interactions
     if (overlay) overlay.addEventListener('click', closeModal);
