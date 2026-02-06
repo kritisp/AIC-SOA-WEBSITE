@@ -598,23 +598,16 @@ const initAlertPopupModal = () => {
         modal.classList.remove('active');
     };
 
-<<<<<<< HEAD
-    // Open on click only (disable hover auto-open)
-=======
     // Open only on click/tap of the alert bar
->>>>>>> e3bffa6f3b814dd43b02512e5b8b688d199a607a
     alertBar.addEventListener('click', (e) => {
         e.preventDefault();
         openModal();
     });
-<<<<<<< HEAD
-=======
     // Ensure it works on touch devices as well
     alertBar.addEventListener('touchstart', (e) => {
         e.preventDefault();
         openModal();
     }, { passive: false });
->>>>>>> e3bffa6f3b814dd43b02512e5b8b688d199a607a
 
     // Close interactions
     if (overlay) overlay.addEventListener('click', closeModal);
@@ -647,7 +640,7 @@ const initScrollTopButton = () => {
         btn = document.createElement('button');
         btn.className = 'scroll-top-btn';
         btn.setAttribute('aria-label', 'Scroll to top');
-        btn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        btn.innerHTML = '<i class="fas fa-angles-up"></i>';
         document.body.appendChild(btn);
     }
 
@@ -682,7 +675,7 @@ const initMobileMenu = () => {
         btn.className = 'menu-toggle';
         btn.setAttribute('aria-label', 'Toggle menu');
         btn.setAttribute('aria-expanded', 'false');
-        btn.innerHTML = '<span class="bar"></span><span class="bar"></span><span class="bar"></span>';
+        btn.innerHTML = '<i class="fas fa-bars"></i>';
         navbar.appendChild(btn);
     }
 
@@ -743,6 +736,7 @@ const initMobileMenu = () => {
     const openMenu = () => {
         btn.classList.add('open');
         btn.setAttribute('aria-expanded', 'true');
+        btn.innerHTML = '<i class="fas fa-times"></i>';
         panel.classList.add('open');
         overlay.classList.add('open');
         panel.setAttribute('aria-hidden', 'false');
@@ -751,6 +745,7 @@ const initMobileMenu = () => {
     const closeMenu = () => {
         btn.classList.remove('open');
         btn.setAttribute('aria-expanded', 'false');
+        btn.innerHTML = '<i class="fas fa-bars"></i>';
         panel.classList.remove('open');
         overlay.classList.remove('open');
         panel.setAttribute('aria-hidden', 'true');
@@ -779,7 +774,12 @@ const initMobileMenu = () => {
 // 8. INITIALIZATION
 // 
 document.addEventListener('DOMContentLoaded', () => {
-    initAlertTicker();
+    // Use alertconfig.js if available, fallback to legacy ticker
+    if (typeof initAlertFromConfig === 'function') {
+        initAlertFromConfig();
+    } else {
+        initAlertTicker();
+    }
     initCounters();
     initSagaSlider();
     initExpertSlider();
@@ -787,7 +787,10 @@ document.addEventListener('DOMContentLoaded', () => {
     initTestimonials();
     initNavbarScroll();
     initMobileMenu();
-    initAlertPopupModal();
+    // Skip initAlertPopupModal if using alertconfig (it handles its own popups)
+    if (typeof initAlertFromConfig !== 'function') {
+        initAlertPopupModal();
+    }
     initHoverPauseControls();
     initScrollTopButton();
 
