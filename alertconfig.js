@@ -4,16 +4,14 @@
  * 
  * Properties:
  * - text: The alert message (required)
- * - tag: 'new' | 'update' | null (optional - shows animated tag)
- * - isHeading: true for prominent bold headings (optional)
- * - popupImage: custom popup image path, defaults to './popup.jpeg' (optional)
+ * - tag: 'new' | 'update' | null (optional)
+ * - isHeading: true for prominent headings (optional)
+ * - popupImage: custom popup image path (optional)
  */
 
 const ALERT_CONFIG = {
-    // Default popup image for all alerts (can be overridden per item)
     defaultPopupImage: './popup.jpeg',
-    
-    // Alert items - add your alerts here (no need to duplicate - auto-loops)
+
     items: [
         {
             text: 'AI in Education: Revolutionizing Learning Experience',
@@ -37,87 +35,97 @@ const ALERT_CONFIG = {
             tag: 'new',
             isHeading: true,
             popupImage: './popup2.jpeg'
-        },
+        }
     ]
 };
 
-// Build alert HTML from config
+/* -----------------------------
+   BUILD ALERT HTML
+-------------------------------- */
 function buildAlertHTML() {
-    let tickerHTML = '';
-    
+    let html = '';
+
     ALERT_CONFIG.items.forEach((item, index) => {
         const headingClass = item.isHeading ? 'alert-heading' : '';
-        const tagHTML = item.tag ? `<span class="ticker-tag tag-${item.tag}">${item.tag.toUpperCase()}</span>` : '';
+        const tagHTML = item.tag
+            ? `<span class="ticker-tag tag-${item.tag}">${item.tag.toUpperCase()}</span>`
+            : '';
+
         const popupImage = item.popupImage || ALERT_CONFIG.defaultPopupImage;
-        
-        tickerHTML += `<span class="alert-item ${headingClass}" data-popup="${popupImage}" data-index="${index}">`;
-        tickerHTML += tagHTML;
-        tickerHTML += `<span class="alert-text">${item.text}</span>`;
-        tickerHTML += `</span>`;
-        tickerHTML += ' <span class="alert-separator">|</span> ';
+
+        html += `
+            <span class="alert-item ${headingClass}" 
+                  data-popup="${popupImage}" 
+                  data-index="${index}">
+                ${tagHTML}
+                <span class="alert-text">${item.text}</span>
+            </span>
+            <span class="alert-separator">|</span>
+        `;
     });
-    
-    // Duplicate for seamless loop
-    return tickerHTML + tickerHTML;
+
+    // Duplicate for infinite scroll
+    return html + html;
 }
 
-// Initialize alert bar from config - always updates from config
-function initAlertFromConfig() {
+/* -----------------------------
+   INIT ALERT BAR (SAFE)
+-------------------------------- */
+function initAlertBar() {
     const ticker = document.querySelector('.alert-ticker');
     if (!ticker) return;
-    
-    // Always build from config
-    ticker.innerHTML = buildAlertHTML();
-    
-    // Add click handlers
+
+    const hasInlineContent =
+        ticker.innerHTML.includes('alert-item') ||
+        ticker.innerHTML.includes('alert-text') ||
+        ticker.children.length > 0 ||
+        ticker.textContent.trim().length > 0;
+
+    // Build only if empty
+    if (!hasInlineContent) {
+        ticker.innerHTML = buildAlertHTML();
+    }
+
     initAlertItemClicks();
 }
 
-// Run immediately when ticker exists (for instant display)
-(function() {
-    const ticker = document.querySelector('.alert-ticker');
-    if (ticker) {
-        ticker.innerHTML = buildAlertHTML();
-    }
-})();
-
-// Handle clicks on individual alert items
+/* -----------------------------
+   CLICK HANDLERS
+-------------------------------- */
 function initAlertItemClicks() {
-    const alertItems = document.querySelectorAll('.alert-item');
-    
-    alertItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.stopPropagation(); // Prevent alert bar click
-            const popupImage = item.dataset.popup || ALERT_CONFIG.defaultPopupImage;
-            openAlertPopup(popupImage);
+    document.querySelectorAll('.alert-item').forEach(item => {
+        item.addEventListener('click', e => {
+            e.stopPropagation();
+            const img = item.dataset.popup || ALERT_CONFIG.defaultPopupImage;
+            openAlertPopup(img);
         });
     });
 }
 
-// Open popup with specified image
+/* -----------------------------
+   POPUP LOGIC
+-------------------------------- */
 function openAlertPopup(imageSrc) {
     let modal = document.querySelector('.alert-image-modal');
-    
+
     if (!modal) {
         modal = document.createElement('div');
         modal.className = 'alert-image-modal';
         modal.innerHTML = `
             <div class="alert-image-overlay"></div>
             <div class="alert-image-box">
-                <button class="alert-image-close" aria-label="Close alert image">&times;</button>
-                <img src="${imageSrc}" alt="Important announcement" />
+                <button class="alert-image-close" aria-label="Close">&times;</button>
+                <img src="${imageSrc}" alt="Announcement" />
             </div>
         `;
         document.body.appendChild(modal);
-        
-        // Close handlers
+
         modal.querySelector('.alert-image-overlay').addEventListener('click', closeAlertPopup);
         modal.querySelector('.alert-image-close').addEventListener('click', closeAlertPopup);
     } else {
-        // Update image source
         modal.querySelector('img').src = imageSrc;
     }
-    
+
     modal.classList.add('active');
 }
 
@@ -126,12 +134,23 @@ function closeAlertPopup() {
     if (modal) modal.classList.remove('active');
 }
 
-// Close on Escape key
-document.addEventListener('keydown', (e) => {
+/* -----------------------------
+   ESC KEY CLOSE
+-------------------------------- */
+document.addEventListener('keydown', e => {
     if (e.key === 'Escape') closeAlertPopup();
 });
 
-// Export for use
+/* -----------------------------
+   DOM READY (INSTANT LOAD FIX)
+-------------------------------- */
+document.addEventListener('DOMContentLoaded', () => {
+    initAlertBar();
+});
+
+/* -----------------------------
+   EXPORT (OPTIONAL)
+-------------------------------- */
 if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { ALERT_CONFIG, initAlertFromConfig };
+    module.exports = { ALERT_CONFIG, initAlertBar };
 }

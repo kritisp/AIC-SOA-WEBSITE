@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alert Test - Instant Visibility</title>
+    <style>
+        body { margin: 0; font-family: Arial, sans-serif; }
+        .alert-bar { 
+            display: flex; 
+            align-items: stretch;
+            background: linear-gradient(to top, #1a1a5e 0%, #2e3192 60%, #3d5a99 100%);
+            color: white;
+            font-size: 12px;
+            height: 40px;
+        }
+        .alert-label { 
+            background: #ff0000;
+            padding: 12px 15px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        .alert-ticker { 
+            display: flex;
+            align-items: center;
+            padding: 12px 20px;
+            color: white;
+            white-space: nowrap;
+        }
+        .alert-item {
+            font-weight: 800;
+            font-size: 13px;
+        }
+        .ticker-tag {
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            padding: 3px 8px;
+            font-size: 10px;
+            margin: 0 6px;
+            color: white;
+            border-radius: 2px;
+        }
+        .alert-separator {
+            opacity: 0.6;
+            margin: 0 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- TEST ALERT BAR - NO ANIMATION, NO JS -->
+    <div class="alert-bar">
+        <div class="alert-label">Alert</div>
+        <div class="alert-ticker">
+            <span class="alert-item">
+                <span class="ticker-tag">NEW</span>
+                <span>AI in Education: Revolutionizing Learning Experience</span>
+            </span>
+            <span class="alert-separator">|</span>
+            <span class="alert-item">
+                <span class="ticker-tag">NEW</span>
+                <span>Our Eminent Speakers for AI in Education</span>
+            </span>
+            <span class="alert-separator">|</span>
+            <span class="alert-item">
+                <span>Join our growing Startup ecosystem</span>
+            </span>
+        </div>
+    </div>
+    
+    <div style="padding: 20px;">
+        <h1>Alert Test Page</h1>
+        <p>The alert bar above should be visible INSTANTLY when this page loads.</p>
+        <p>No JavaScript, no animations, no external files.</p>
+        <p>If you can see the alert text above, the problem is solved.</p>
+    </div>
+</body>
+</html>

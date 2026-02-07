@@ -9,6 +9,70 @@
     <link rel="stylesheet" href="../styles/aic.css">
     <!-- Page specific styles -->
     <link rel="stylesheet" href="gallery.css">
+    <!-- Fast Alert Bar Styles -->
+    <style>
+      .alert-bar { 
+        display: flex; 
+        align-items: stretch;
+        background: linear-gradient(to top, #1a1a5e 0%, #2e3192 60%, #3d5a99 100%);
+        color: white;
+        font-size: 12px;
+        height: 40px;
+        overflow: hidden;
+      }
+      .alert-label { 
+        background: #ff0000;
+        padding: 12px 15px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+      }
+      .alert-ticker { 
+        display: flex;
+        align-items: center;
+        padding: 12px 0;
+        color: white;
+        white-space: nowrap;
+        animation: scroll-left 45s linear infinite;
+        opacity: 1 !important;
+        visibility: visible !important;
+        animation-delay: 0s !important;
+        animation-fill-mode: both !important;
+      }
+      @keyframes scroll-left {
+        0% { transform: translateX(100%); }
+        100% { transform: translateX(-100%); }
+      }
+      .alert-item {
+        font-weight: 800;
+        font-size: 13px;
+        margin: 0 20px;
+        cursor: pointer;
+        padding: 2px 6px;
+        border-radius: 4px;
+        transition: background 0.2s ease;
+      }
+      .alert-item:hover {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .ticker-tag {
+        clip-path: none !important;
+        animation: none !important;
+        background: linear-gradient(90deg, #ff6b6b, #feca57) !important;
+        padding: 3px 8px !important;
+        font-size: 10px !important;
+        margin-right: 6px !important;
+        color: white !important;
+        border-radius: 2px !important;
+        font-weight: bold !important;
+        display: inline-block !important;
+      }
+      .alert-separator {
+        opacity: 0.6;
+        margin: 0 15px;
+      }
+    </style>
 </head>
 <body>
 
@@ -77,10 +141,94 @@
             </div>
         </header>
         <div class="alert-bar">
-            <div class="alert-label">Alert</div>
-            <div class="alert-ticker"></div>
+          <div class="alert-label">Alert</div>
+          <div class="alert-ticker">
+            <span class="alert-item" data-popup="../popup.jpeg">
+              <span class="ticker-tag">NEW</span>
+              <span>AI in Education: Revolutionizing Learning Experience</span>
+            </span>
+            <span class="alert-separator">|</span>
+            <span class="alert-item" data-popup="../popup2.jpeg">
+              <span class="ticker-tag">NEW</span>
+              <span>Our Eminent Speakers for AI in Education</span>
+            </span>
+            <span class="alert-separator">|</span>
+            <span class="alert-item">
+              <span>Join our growing Startup ecosystem</span>
+            </span>
+            <span class="alert-separator">|</span>
+            <span class="alert-item" data-popup="../popup2.jpeg">
+              <span class="ticker-tag">UPDATE</span>
+              <span>Program Benefits Available Now</span>
+            </span>
+          </div>
         </div>
     </div>
+    <script>
+      // Popup functionality
+      function initPopups() {
+        const alertItems = document.querySelectorAll('.alert-item[data-popup]');
+        
+        alertItems.forEach(item => {
+          item.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const popup = item.dataset.popup;
+            if (popup) {
+              showPopup(popup);
+            }
+          });
+        });
+        
+        function showPopup(imageSrc) {
+          let modal = document.querySelector('.alert-modal');
+          
+          if (!modal) {
+            modal = document.createElement('div');
+            modal.className = 'alert-modal';
+            modal.style.cssText = `
+              position: fixed !important; top: 0; left: 0; width: 100%; height: 100%;
+              background: rgba(0,0,0,0.8); z-index: 99999; display: flex;
+              justify-content: center; align-items: center; cursor: pointer;
+            `;
+            modal.innerHTML = `
+              <div style="position: relative; max-width: 400px; max-height: 300px; cursor: default;">
+                <img src="" alt="Alert" style="width: 400px; height: 300px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); background: white;">
+                <button class="close-popup" 
+                        style="position: absolute; top: -15px; right: -15px; 
+                               background: #ff0000; color: white; border: none; 
+                               border-radius: 50%; width: 40px; height: 40px; 
+                               cursor: pointer; font-size: 20px; font-weight: bold;
+                               box-shadow: 0 2px 10px rgba(0,0,0,0.3);">&times;</button>
+              </div>
+            `;
+            document.body.appendChild(modal);
+            
+            modal.addEventListener('click', function() {
+              modal.style.display = 'none';
+            });
+            
+            modal.querySelector('.close-popup').addEventListener('click', function(e) {
+              e.stopPropagation();
+              modal.style.display = 'none';
+            });
+            
+            modal.querySelector('img').addEventListener('click', function(e) {
+              e.stopPropagation();
+            });
+          }
+          
+          modal.querySelector('img').src = imageSrc;
+          modal.style.display = 'flex';
+        }
+      }
+      
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initPopups);
+      } else {
+        initPopups();
+      }
+    </script>
 
     <section class="gallery-wrapper">
         <h1 class="gallery-title">Image <span>Gallery</span></h1>
@@ -247,7 +395,6 @@
     </footer>
 
     <script src="gallery.js"></script>
-    <script src="../alertconfig.js"></script>
     <script src="../aic.js"></script>
 </body>
 </html>

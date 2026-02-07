@@ -182,13 +182,11 @@ body {
   white-space: nowrap;
   display: flex;
   align-items: stretch;
-  transition:
-    opacity 0.3s ease,
-    transform 0.3s ease,
-    max-height 0.3s ease,
-    padding 0.3s ease;
   max-height: 40px;
   cursor: pointer; /* indicate tap/click for popup */
+  /* Ensure immediate visibility - no transitions on initial load */
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 /* Top-level nav links (Home + dropdown triggers) */
@@ -274,11 +272,12 @@ body {
 
 /* Hidden state when user scrolls down */
 .alert-bar.alert-bar--hidden {
-  opacity: 0;
+  opacity: 0 !important;
   transform: translateY(-100%);
   max-height: 0;
   padding-top: 0;
   padding-bottom: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease, max-height 0.3s ease;
 }
 
 .alert-label {
@@ -295,9 +294,16 @@ body {
 .alert-ticker {
   display: inline-flex;
   align-items: center;
-  animation: ticker 30s linear infinite;
+  animation: ticker 120s linear infinite;
   white-space: nowrap;
   padding-right: 50px;
+  min-width: max-content;
+  will-change: transform;
+  backface-visibility: hidden;
+  /* Ensure content is always visible */
+  color: white;
+  opacity: 1;
+  visibility: visible;
 }
 
 .alert-item {
