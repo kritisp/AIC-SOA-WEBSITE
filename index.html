@@ -271,6 +271,155 @@
         initPopups();
       }
     </script>
+    
+    <!-- Essential JavaScript for mobile menu and site functionality -->
+    <script>
+      // Mobile Menu Functionality
+      document.addEventListener('DOMContentLoaded', () => {
+        const navbar = document.querySelector('.navbar');
+        if (!navbar) return;
+        
+        // Create mobile menu button if it doesn't exist
+        let menuBtn = document.querySelector('.menu-toggle');
+        if (!menuBtn) {
+          menuBtn = document.createElement('button');
+          menuBtn.className = 'menu-toggle';
+          menuBtn.setAttribute('aria-label', 'Toggle menu');
+          menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+          navbar.appendChild(menuBtn);
+        }
+        
+        // Create mobile menu overlay and panel
+        let overlay = document.querySelector('.mobile-menu-overlay');
+        if (!overlay) {
+          overlay = document.createElement('div');
+          overlay.className = 'mobile-menu-overlay';
+          document.body.appendChild(overlay);
+        }
+        
+        let panel = document.querySelector('.mobile-menu');
+        if (!panel) {
+          panel = document.createElement('aside');
+          panel.className = 'mobile-menu';
+          panel.innerHTML = '<nav class="mobile-nav"></nav>';
+          document.body.appendChild(panel);
+          
+          // Clone navigation items
+          const mobileNav = panel.querySelector('.mobile-nav');
+          const navLinks = document.querySelector('.nav-links');
+          if (navLinks && mobileNav) {
+            const items = Array.from(navLinks.querySelectorAll('.nav-item'));
+            items.forEach(item => {
+              const trigger = item.querySelector('.nav-link');
+              const dropdown = item.querySelector('.dropdown-menu');
+              const label = trigger ? trigger.textContent.trim() : '';
+              
+              if (dropdown) {
+                const header = document.createElement('button');
+                header.className = 'mobile-accordion-header';
+                header.innerHTML = `<span>${label}</span><span class="chev">▸</span>`;
+                mobileNav.appendChild(header);
+                
+                const panelDiv = document.createElement('div');
+                panelDiv.className = 'mobile-accordion-panel';
+                dropdown.querySelectorAll('a').forEach(sa => {
+                  const subLink = sa.cloneNode(true);
+                  subLink.classList.add('mobile-sublink');
+                  panelDiv.appendChild(subLink);
+                });
+                mobileNav.appendChild(panelDiv);
+                
+                header.addEventListener('click', () => {
+                  const expanded = header.classList.toggle('expanded');
+                  if (expanded) panelDiv.classList.add('open');
+                  else panelDiv.classList.remove('open');
+                });
+              } else if (trigger) {
+                const a = trigger.cloneNode(true);
+                mobileNav.appendChild(a);
+              }
+            });
+          }
+        }
+        
+        // Menu toggle functionality
+        const openMenu = () => {
+          menuBtn.classList.add('open');
+          menuBtn.innerHTML = '<i class="fas fa-times"></i>';
+          panel.classList.add('open');
+          overlay.classList.add('open');
+          document.body.style.overflow = 'hidden';
+        };
+        
+        const closeMenu = () => {
+          menuBtn.classList.remove('open');
+          menuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+          panel.classList.remove('open');
+          overlay.classList.remove('open');
+          document.body.style.overflow = '';
+        };
+        
+        menuBtn.addEventListener('click', () => {
+          if (panel.classList.contains('open')) closeMenu();
+          else openMenu();
+        });
+        
+        overlay.addEventListener('click', closeMenu);
+        panel.addEventListener('click', (e) => {
+          if (e.target.closest('a')) closeMenu();
+        });
+        
+        // Close on window resize
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 768 && panel.classList.contains('open')) closeMenu();
+        });
+        
+        // Dropdown behavior for desktop
+        document.querySelectorAll('.nav-item').forEach(item => {
+          const link = item.querySelector('.nav-link');
+          const dropdown = item.querySelector('.dropdown-menu');
+          if (link && dropdown) {
+            link.addEventListener('click', (e) => {
+              if (window.innerWidth > 768) {
+                e.preventDefault();
+                const opened = item.classList.toggle('open');
+                if (opened) {
+                  document.querySelectorAll('.nav-item').forEach(i => {
+                    if (i !== item) i.classList.remove('open');
+                  });
+                }
+              }
+            });
+          }
+        });
+        
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!e.target.closest('.nav-item')) {
+            document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('open'));
+          }
+        });
+        
+        // Navbar scroll behavior
+        const headerTop = document.querySelector('.header-top');
+        const alertBar = document.querySelector('.alert-bar');
+        
+        const updateNavbarState = () => {
+          if (window.scrollY <= 5) {
+            navbar.classList.remove('navbar--scrolled');
+            if (headerTop) headerTop.classList.remove('header-top--scrolled');
+            if (alertBar) alertBar.classList.remove('alert-bar--hidden');
+          } else {
+            navbar.classList.add('navbar--scrolled');
+            if (headerTop) headerTop.classList.add('header-top--scrolled');
+            if (alertBar) alertBar.classList.add('alert-bar--hidden');
+          }
+        };
+        
+        window.addEventListener('scroll', updateNavbarState, { passive: true });
+        updateNavbarState();
+      });
+    </script>
 
     <!-- Hero Section with Video Background -->
     <section class="hero">
