@@ -468,6 +468,18 @@ main {
   padding: 30px;
 }
 
+@media (max-width: 768px) {
+  main {
+    padding: 15px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 10px 0;
+  }
+}
+
 
 /* SECTION */
 .info-section {
@@ -476,7 +488,23 @@ main {
     display: flex;
     flex-direction: column;
     gap: 40px;
-    padding-top: 80px;
+    padding-top: 150px; /* Clear fixed header + alert + breadcrumb */
+}
+
+@media (max-width: 768px) {
+  .info-section {
+    padding-top: 140px;
+    gap: 25px;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .info-section {
+    padding-top: 135px;
+    gap: 20px;
+  }
 }
 
 /* CARD */
@@ -545,9 +573,8 @@ main {
 }
 
 @media (max-width: 480px) {
-
     body {
-        padding: 25px 15px;
+        padding: 0;
     }
 
     .info-card h2 {
@@ -566,6 +593,20 @@ h1 {
   margin-bottom: 30px;
 }
 
+@media (max-width: 768px) {
+  h1 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    padding: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 22px;
+  }
+}
+
 /* CARDS */
 .container {
   display: flex;
@@ -582,6 +623,37 @@ h1 {
   border-radius: 16px;
   padding: 15px;
   transition: 0.4s;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 0 15px;
+  }
+  
+  .card {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    min-height: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    min-height: 300px;
+    padding: 12px;
+  }
+  
+  .card h2 {
+    font-size: 18px;
+  }
+  
+  .distance {
+    font-size: 13px;
+  }
 }
 
 .card:hover {

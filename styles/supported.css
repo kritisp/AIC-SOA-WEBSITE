@@ -5,47 +5,15 @@
     font-family: "Segoe UI", sans-serif;
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-    background: linear-gradient(90deg, #fff7b0, #fff3c4);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 60px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.nav-left img {
-    height: 50px;
-}
-
-.nav-links a {
-    margin: 0 14px;
-    text-decoration: none;
-    color: #2c1a63;
-    font-weight: 500;
-}
-
-.nav-links a:hover {
-    color: #ff9800;
-}
-
-.nav-right img {
-    height: 40px;
-    margin-left: 10px;
-}
-
 /* ================= HERO ================= */
 .hero {
     height: 320px;
+    margin-top: 140px; /* Clear fixed header + alert + breadcrumb */
     background: radial-gradient(circle at left, #0a4fa3, #030d3d);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
-    padding-top: 180px;
 }
 
 .hero::before {
@@ -118,12 +86,47 @@
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 768px) {
+    .hero {
+        height: 220px;
+        margin-top: 130px;
+    }
+    
+    .hero h1 {
+        font-size: 28px;
+        text-align: center;
+        padding: 0 20px;
+    }
+    
     .support-container {
         padding: 40px 20px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
     }
+    
+    .support-card {
+        padding: 20px 15px;
+    }
+    
+    .support-card img {
+        height: 60px;
+    }
+    
+    .support-card h3 {
+        font-size: 14px;
+    }
+}
 
+@media (max-width: 480px) {
+    .hero {
+        height: 180px;
+        margin-top: 125px;
+    }
+    
     .hero h1 {
-        font-size: 34px;
-        text-align: center;
+        font-size: 24px;
+    }
+    
+    .support-container {
+        grid-template-columns: 1fr;
     }
 }

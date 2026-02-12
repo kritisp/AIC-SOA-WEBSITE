@@ -14,13 +14,12 @@
     .alert-row { display: flex; align-items: center; background: linear-gradient(to top, #1a1a5e 0%, #2e3192 60%, #3d5a99 100%); color: white; height: 45px; font-family: sans-serif; width: 100%; transition: height 0.3s ease, opacity 0.3s ease, padding 0.3s ease; overflow: hidden; }
     .alert-row.hidden { height: 0; opacity: 0; padding: 0; }
       .alert-row .alert-label { background-color: #ff0000; padding: 0 20px; height: 100%; display: flex; align-items: center; font-weight: bold; }
-      .alert-content-area { flex-grow: 1; padding-left: 20px; overflow: hidden; }
-      .alert-msg { display: none; color: white; text-decoration: none; font-size: 14px; cursor: pointer; animation: alertFadeIn 0.5s; }
-      .alert-msg.active { display: inline-block; }
+      .alert-content-area { flex-grow: 1; padding-left: 20px; overflow: hidden; position: relative; height: 100%; display: flex; align-items: center; }
+      .alert-msg { position: absolute; left: 0; color: white; text-decoration: none; font-size: 14px; cursor: pointer; opacity: 0; transform: translateX(20px); transition: opacity 0.4s ease, transform 0.4s ease; white-space: nowrap; pointer-events: none; }
+      .alert-msg.active { opacity: 1; transform: translateX(0); pointer-events: auto; }
       .alert-controls { margin-left: auto; display: flex; height: 100%; border-left: 1px solid rgba(255,255,255,0.2); }
       .alert-controls button { background: transparent; border: none; color: white; padding: 0 15px; cursor: pointer; font-size: 18px; transition: background 0.3s; }
       .alert-controls button:hover { background: rgba(255,255,255,0.1); }
-      @keyframes alertFadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
       .alert-badge { font-size: 10px; padding: 2px 8px; border-radius: 3px; margin-left: 10px; font-weight: bold; display: inline-block; }
       .alert-badge.update { background-color: #4caf50; } .alert-badge.new { background-color: #ff9800; }
       .alert-popup-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; display: none; }
@@ -102,8 +101,7 @@
     <div class="alert-row">
       <div class="alert-label">Alert</div>
       <div class="alert-content-area" id="alert-msg-container">
-        <a href="#" class="alert-msg active" data-popup="../popup.jpeg" data-title="Women in STEM Initiative">NextGen Women in STEM - Taking Action, Creating Change.<span class="alert-badge update">UPDATE</span></a>
-        <a href="#" class="alert-msg" data-popup="../popup.jpeg" data-title="AI in Education">AI in Education: Revolutionizing Learning Experience.<span class="alert-badge new">NEW</span></a>
+        <a href="#" class="alert-msg active" data-popup="../popup.jpeg" data-title="AI in Education">AI in Education: Revolutionizing Learning Experience.<span class="alert-badge new">NEW</span></a>
         <a href="#" class="alert-msg" data-popup="../popup2.jpeg" data-title="Speaker Announcement">Our Eminent Speakers for AI in Education.<span class="alert-badge new">NEW</span></a>
       </div>
       <div class="alert-controls"><button id="alertPrevBtn">&#10094;</button><button id="alertNextBtn">&#10095;</button></div>
@@ -113,12 +111,13 @@
 <script>
 (function() {
   const messages = document.querySelectorAll('.alert-msg'), container = document.getElementById('alert-msg-container'), prevBtn = document.getElementById('alertPrevBtn'), nextBtn = document.getElementById('alertNextBtn'), popupModal = document.querySelector('.alert-popup-modal'), popupOverlay = document.querySelector('.alert-popup-overlay'), popupTitle = document.querySelector('.alert-popup-title'), popupImage = document.querySelector('.alert-popup-body img'), popupCloseBtn = document.querySelector('.alert-popup-close');
-  if (!messages.length) return; let currentIdx = 0, autoSlide;
-  function updateDisplay() { messages.forEach(m => m.classList.remove('active')); messages[currentIdx].classList.add('active'); }
-  function showNext() { currentIdx = (currentIdx + 1) % messages.length; updateDisplay(); }
-  function showPrev() { currentIdx = (currentIdx - 1 + messages.length) % messages.length; updateDisplay(); }
+  if (!messages.length) return; let currentIdx = 0, autoSlide, isTransitioning = false;
+  function transitionTo(newIdx) { if (isTransitioning || newIdx === currentIdx) return; isTransitioning = true; messages[currentIdx].classList.remove('active'); messages[newIdx].classList.add('active'); currentIdx = newIdx; setTimeout(() => { isTransitioning = false; }, 400); }
+  function showNext() { transitionTo((currentIdx + 1) % messages.length); }
+  function showPrev() { transitionTo((currentIdx - 1 + messages.length) % messages.length); }
   function startTimer() { autoSlide = setInterval(showNext, 5000); }
   function resetTimer() { clearInterval(autoSlide); startTimer(); }
+  messages.forEach((m, i) => { if (i === 0) m.classList.add('active'); else m.classList.remove('active'); });
   startTimer();
   nextBtn.addEventListener('click', () => { showNext(); resetTimer(); });
   prevBtn.addEventListener('click', () => { showPrev(); resetTimer(); });

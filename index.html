@@ -39,16 +39,29 @@
         flex-grow: 1;
         padding-left: 20px;
         overflow: hidden;
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
       }
       .alert-msg {
-        display: none;
+        position: absolute;
+        left: 0;
         color: white;
         text-decoration: none;
         font-size: 14px;
         cursor: pointer;
-        animation: alertFadeIn 0.5s;
+        opacity: 0;
+        transform: translateX(20px);
+        transition: opacity 0.4s ease, transform 0.4s ease;
+        white-space: nowrap;
+        pointer-events: none;
       }
-      .alert-msg.active { display: inline-block; }
+      .alert-msg.active {
+        opacity: 1;
+        transform: translateX(0);
+        pointer-events: auto;
+      }
       .alert-controls {
         margin-left: auto;
         display: flex;
@@ -65,10 +78,6 @@
         transition: background 0.3s;
       }
       .alert-controls button:hover { background: rgba(255,255,255,0.1); }
-      @keyframes alertFadeIn {
-        from { opacity: 0; transform: translateY(5px); }
-        to { opacity: 1; transform: translateY(0); }
-      }
       .alert-badge {
         font-size: 10px;
         padding: 2px 8px;
@@ -222,8 +231,7 @@
       <div class="alert-row">
         <div class="alert-label">Alert</div>
         <div class="alert-content-area" id="alert-msg-container">
-<!-- -->
-          <a href="#" class="alert-msg" data-popup="./popup.jpeg" data-title="AI in Education">
+          <a href="#" class="alert-msg active" data-popup="./popup.jpeg" data-title="AI in Education">
             AI in Education: Revolutionizing Learning Experience.
             <span class="alert-badge new">NEW</span>
           </a>
@@ -266,16 +274,40 @@
       const popupCloseBtn = document.querySelector('.alert-popup-close');
       
       if (!messages.length) return;
-      let currentIdx = 0, autoSlide;
+      let currentIdx = 0, autoSlide, isTransitioning = false;
 
-      function updateDisplay() {
-        messages.forEach(msg => msg.classList.remove('active'));
-        messages[currentIdx].classList.add('active');
+      // Smooth transition function
+      function transitionTo(newIdx) {
+        if (isTransitioning || newIdx === currentIdx) return;
+        isTransitioning = true;
+        
+        const currentMsg = messages[currentIdx];
+        const nextMsg = messages[newIdx];
+        
+        // Fade out current and immediately show next (crossfade effect)
+        currentMsg.classList.remove('active');
+        nextMsg.classList.add('active');
+        currentIdx = newIdx;
+        
+        setTimeout(() => { isTransitioning = false; }, 400);
       }
-      function showNext() { currentIdx = (currentIdx + 1) % messages.length; updateDisplay(); }
-      function showPrev() { currentIdx = (currentIdx - 1 + messages.length) % messages.length; updateDisplay(); }
+      
+      function showNext() {
+        const nextIdx = (currentIdx + 1) % messages.length;
+        transitionTo(nextIdx);
+      }
+      function showPrev() {
+        const prevIdx = (currentIdx - 1 + messages.length) % messages.length;
+        transitionTo(prevIdx);
+      }
       function startTimer() { autoSlide = setInterval(showNext, 5000); }
       function resetTimer() { clearInterval(autoSlide); startTimer(); }
+      
+      // Initialize first message
+      messages.forEach((msg, i) => {
+        if (i === 0) msg.classList.add('active');
+        else msg.classList.remove('active');
+      });
       
       startTimer();
       if (nextBtn) nextBtn.addEventListener('click', () => { showNext(); resetTimer(); });
@@ -308,15 +340,12 @@
 
       // Hide alert bar on scroll
       const alertRow = document.querySelector('.alert-row');
-      let lastScroll = 0;
       window.addEventListener('scroll', () => {
-        const currentScroll = window.scrollY;
-        if (currentScroll > 50) {
+        if (window.scrollY > 50) {
           alertRow.classList.add('hidden');
         } else {
           alertRow.classList.remove('hidden');
         }
-        lastScroll = currentScroll;
       }, { passive: true });
     })();
     </script>
@@ -594,12 +623,12 @@
           <div class="marquee-content">
             <div class="startup-logo-card">
               <img
-                src="https://via.placeholder.com/150x80?text=PLANTERY"
+                src="./assets/startupimages/Picture1-CnZitwGM.png"
                 alt="Plantery"
               />
             </div>
             <div class="startup-logo-card">
-              <img src="./startups/Picture2-Da7PfdAM - Copy.png" alt="driEV" />
+              <img src="./assets/startupimages/Picture2-Da7PfdAM.png" alt="driEV" />
             </div>
             <div class="startup-logo-card">
               <img
