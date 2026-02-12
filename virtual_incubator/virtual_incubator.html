@@ -393,9 +393,78 @@
       </div>
     </footer>
 <script src="../aic.js"></script>
-<!-- Ensure mobile menu init runs even if DOMContentLoaded already fired on some devices -->
-<script>if (typeof initMobileMenu === 'function') { try { initMobileMenu(); } catch(e){ console.warn('menu init failed', e); } }</script>
 <script src="virtual_incubator.js"></script>
+<script>
+  // Mobile Menu Toggle
+  const menuToggle = document.querySelector('.menu-toggle');
+  const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const mobileAccordionHeaders = document.querySelectorAll('.mobile-accordion-header');
+
+  function closeMenu() {
+    menuToggle.classList.remove('open');
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    mobileMenuOverlay.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function openMenu() {
+    menuToggle.classList.add('open');
+    menuToggle.innerHTML = '<i class="fas fa-times"></i>';
+    mobileMenuOverlay.classList.add('open');
+    mobileMenu.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  if (menuToggle) {
+    menuToggle.addEventListener('click', () => {
+      if (mobileMenu.classList.contains('open')) closeMenu();
+      else openMenu();
+    });
+  }
+
+  if (mobileMenuOverlay) {
+    mobileMenuOverlay.addEventListener('click', closeMenu);
+  }
+
+  // Close menu when clicking a link
+  document.querySelectorAll('.mobile-nav-link, .mobile-sublink').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Mobile Accordion
+  mobileAccordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const panel = header.nextElementSibling;
+      const isOpen = panel.classList.contains('open');
+
+      // Close all panels
+      document.querySelectorAll('.mobile-accordion-panel').forEach(p => p.classList.remove('open'));
+      document.querySelectorAll('.mobile-accordion-header').forEach(h => h.classList.remove('expanded'));
+
+      // Open clicked panel if it wasn't already open
+      if (!isOpen) {
+        panel.classList.add('open');
+        header.classList.add('expanded');
+      }
+    });
+  });
+
+  // Navbar scroll effect
+  const headerTop = document.querySelector('.header-top');
+  const navbar = document.querySelector('.navbar');
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 10) {
+      headerTop?.classList.add('header-top--scrolled');
+      navbar?.classList.add('navbar--scrolled');
+    } else {
+      headerTop?.classList.remove('header-top--scrolled');
+      navbar?.classList.remove('navbar--scrolled');
+    }
+  });
+</script>
 
 </body>
 </html>
