@@ -83,6 +83,7 @@ body {
   font-size: 14px;
   color: #374151;
   border-bottom: 1px solid rgba(15,23,42,0.04);
+  transition: margin 0.3s ease;
 }
 .page-breadcrumb .breadcrumb-list {
   list-style: none;

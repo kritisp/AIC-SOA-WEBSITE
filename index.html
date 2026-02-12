@@ -3,85 +3,127 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AIC-SOA Foundation Clone</title>
+    <title>AIC-SOA Foundation</title>
     <!-- Font Awesome for Icons -->
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
     />
-    <!-- Critical CSS for instant alert visibility - EXACT COPY FROM WORKING TEST -->
+    <!-- New Alert Bar Styles -->
     <style>
-      .alert-bar { 
-        display: flex; 
-        align-items: stretch;
+      .alert-row {
+        display: flex;
+        align-items: center;
         background: linear-gradient(to top, #1a1a5e 0%, #2e3192 60%, #3d5a99 100%);
         color: white;
-        font-size: 12px;
-        height: 40px;
+        height: 45px;
+        font-family: sans-serif;
+        width: 100%;
+        transition: height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
         overflow: hidden;
       }
-      .alert-label { 
-        background: #ff0000;
-        padding: 12px 15px;
+      .alert-row.hidden {
+        height: 0;
+        opacity: 0;
+        padding: 0;
+      }
+      .alert-row .alert-label {
+        background-color: #ff0000;
+        padding: 0 20px;
+        height: 100%;
+        display: flex;
+        align-items: center;
         font-weight: bold;
-        display: flex;
-        align-items: center;
-        flex-shrink: 0;
       }
-      .alert-ticker { 
-        display: flex;
-        align-items: center;
-        padding: 12px 0;
+      .alert-content-area {
+        flex-grow: 1;
+        padding-left: 20px;
+        overflow: hidden;
+      }
+      .alert-msg {
+        display: none;
         color: white;
-        white-space: nowrap;
-        animation: scroll-left 45s linear infinite;
-        /* Ensure instant visibility */
-        opacity: 1 !important;
-        visibility: visible !important;
-        animation-delay: 0s !important;
-        animation-fill-mode: both !important;
-      }
-      @keyframes scroll-left {
-        0% { transform: translateX(100%); }
-        100% { transform: translateX(-100%); }
-      }
-      .alert-item {
-        font-weight: 800;
-        font-size: 13px;
-        margin: 0 20px;
+        text-decoration: none;
+        font-size: 14px;
         cursor: pointer;
-        padding: 2px 6px;
-        border-radius: 4px;
-        transition: background 0.2s ease;
+        animation: alertFadeIn 0.5s;
       }
-      .alert-item:hover {
-        background: rgba(255, 255, 255, 0.15);
+      .alert-msg.active { display: inline-block; }
+      .alert-controls {
+        margin-left: auto;
+        display: flex;
+        height: 100%;
+        border-left: 1px solid rgba(255,255,255,0.2);
       }
-      .ticker-tag {
-        background: linear-gradient(90deg, #ff6b6b, #feca57);
-        padding: 3px 8px;
-        font-size: 10px;
-        margin-right: 6px;
+      .alert-controls button {
+        background: transparent;
+        border: none;
         color: white;
-        border-radius: 2px;
+        padding: 0 15px;
+        cursor: pointer;
+        font-size: 18px;
+        transition: background 0.3s;
       }
-      .alert-separator {
-        opacity: 0.6;
-        margin: 0 15px;
+      .alert-controls button:hover { background: rgba(255,255,255,0.1); }
+      @keyframes alertFadeIn {
+        from { opacity: 0; transform: translateY(5px); }
+        to { opacity: 1; transform: translateY(0); }
       }
-      /* Override any spiky styles from external CSS */
-      .ticker-tag {
-        clip-path: none !important;
-        animation: none !important;
-        background: linear-gradient(90deg, #ff6b6b, #feca57) !important;
-        padding: 3px 8px !important;
-        font-size: 10px !important;
-        margin-right: 6px !important;
-        color: white !important;
-        border-radius: 2px !important;
-        font-weight: bold !important;
-        display: inline-block !important;
+      .alert-badge {
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 3px;
+        margin-left: 10px;
+        font-weight: bold;
+        display: inline-block;
       }
+      .alert-badge.update { background-color: #4caf50; }
+      .alert-badge.new { background-color: #ff9800; }
+      /* Popup Modal */
+      .alert-popup-modal {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        z-index: 10000;
+        display: none;
+      }
+      .alert-popup-modal.active { display: block; }
+      .alert-popup-overlay {
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0,0,0,0.7);
+      }
+      .alert-popup-container {
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+        background: white;
+        border-radius: 12px;
+        max-width: 450px;
+        width: 85%;
+        overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0,0,0,0.4);
+      }
+      .alert-popup-header {
+        background: #3f51b5;
+        color: white;
+        padding: 15px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .alert-popup-title { margin: 0; font-size: 18px; font-weight: 600; }
+      .alert-popup-close {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 28px;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .alert-popup-body { padding: 0; }
+      .alert-popup-body img { width: 100%; height: auto; display: block; }
     </style>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="./styles/aic.css" />
@@ -176,100 +218,107 @@
         </div>
       </header>
 
-      <!-- Alert Bar - EXACT COPY FROM WORKING TEST + POPUP DATA -->
-      <div class="alert-bar">
+      <!-- New Alert Bar -->
+      <div class="alert-row">
         <div class="alert-label">Alert</div>
-        <div class="alert-ticker">
-          <span class="alert-item" data-popup="./popup.jpeg">
-            <span class="ticker-tag">NEW</span>
-            <span>AI in Education: Revolutionizing Learning Experience</span>
-          </span>
-          <span class="alert-separator">|</span>
-          <span class="alert-item" data-popup="./popup2.jpeg">
-            <span class="ticker-tag">NEW</span>
-            <span>Our Eminent Speakers for AI in Education</span>
-          </span>
-          <span class="alert-separator">|</span>
-          <span class="alert-item">
-            <span>Join our growing Startup ecosystem</span>
-          </span>
-          <span class="alert-separator">|</span>
-          <span class="alert-item" data-popup="./popup2.jpeg">
-            <span class="ticker-tag">UPDATE</span>
-            <span>Program Benefits Available Now</span>
-          </span>
+        <div class="alert-content-area" id="alert-msg-container">
+<!-- -->
+          <a href="#" class="alert-msg" data-popup="./popup.jpeg" data-title="AI in Education">
+            AI in Education: Revolutionizing Learning Experience.
+            <span class="alert-badge new">NEW</span>
+          </a>
+          <a href="#" class="alert-msg" data-popup="./popup2.jpeg" data-title="Speaker Announcement">
+            Our Eminent Speakers for AI in Education.
+            <span class="alert-badge new">NEW</span>
+          </a>
+        </div>
+        <div class="alert-controls">
+          <button id="alertPrevBtn" title="Previous">&#10094;</button>
+          <button id="alertNextBtn" title="Next">&#10095;</button>
         </div>
       </div>
     </div>
+
+    <!-- Alert Popup Modal -->
+    <div class="alert-popup-modal">
+      <div class="alert-popup-overlay"></div>
+      <div class="alert-popup-container">
+        <div class="alert-popup-header">
+          <h3 class="alert-popup-title">Announcement</h3>
+          <button class="alert-popup-close">&times;</button>
+        </div>
+        <div class="alert-popup-body">
+          <img src="" alt="Announcement" />
+        </div>
+      </div>
+    </div>
+
     <script>
-      // Popup functionality - runs immediately when script loads
-      function initPopups() {
-        const alertItems = document.querySelectorAll('.alert-item[data-popup]');
-        console.log('Found alert items with popups:', alertItems.length);
-        
-        alertItems.forEach(item => {
-          item.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const popup = item.dataset.popup;
-            console.log('Clicked item with popup:', popup);
-            if (popup) {
-              showPopup(popup);
-            }
-          });
-        });
-        
-        function showPopup(imageSrc) {
-          console.log('Showing popup:', imageSrc);
-          let modal = document.querySelector('.alert-modal');
-          
-          if (!modal) {
-            modal = document.createElement('div');
-            modal.className = 'alert-modal';
-            modal.style.cssText = `
-              position: fixed !important; top: 0; left: 0; width: 100%; height: 100%;
-              background: rgba(0,0,0,0.8); z-index: 99999; display: flex;
-              justify-content: center; align-items: center; cursor: pointer;
-            `;
-            modal.innerHTML = `
-              <div style="position: relative; max-width: 400px; max-height: 300px; cursor: default;">
-                <img src="" alt="Alert" style="width: 400px; height: 300px; object-fit: contain; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3); background: white;">
-                <button class="close-popup" 
-                        style="position: absolute; top: -15px; right: -15px; 
-                               background: #ff0000; color: white; border: none; 
-                               border-radius: 50%; width: 40px; height: 40px; 
-                               cursor: pointer; font-size: 20px; font-weight: bold;
-                               box-shadow: 0 2px 10px rgba(0,0,0,0.3);">&times;</button>
-              </div>
-            `;
-            document.body.appendChild(modal);
-            
-            // Close popup when clicking outside or on close button
-            modal.addEventListener('click', function() {
-              modal.style.display = 'none';
-            });
-            
-            modal.querySelector('.close-popup').addEventListener('click', function(e) {
-              e.stopPropagation();
-              modal.style.display = 'none';
-            });
-            
-            modal.querySelector('img').addEventListener('click', function(e) {
-              e.stopPropagation(); // Don't close when clicking the image
-            });
-          }
-          
-          modal.querySelector('img').src = imageSrc;
-          modal.style.display = 'flex';
-        }
-      }
+    (function() {
+      const messages = document.querySelectorAll('.alert-msg');
+      const container = document.getElementById('alert-msg-container');
+      const prevBtn = document.getElementById('alertPrevBtn');
+      const nextBtn = document.getElementById('alertNextBtn');
+      const popupModal = document.querySelector('.alert-popup-modal');
+      const popupOverlay = document.querySelector('.alert-popup-overlay');
+      const popupTitle = document.querySelector('.alert-popup-title');
+      const popupImage = document.querySelector('.alert-popup-body img');
+      const popupCloseBtn = document.querySelector('.alert-popup-close');
       
-      // Run immediately when script loads
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initPopups);
-      } else {
-        initPopups();
+      if (!messages.length) return;
+      let currentIdx = 0, autoSlide;
+
+      function updateDisplay() {
+        messages.forEach(msg => msg.classList.remove('active'));
+        messages[currentIdx].classList.add('active');
       }
+      function showNext() { currentIdx = (currentIdx + 1) % messages.length; updateDisplay(); }
+      function showPrev() { currentIdx = (currentIdx - 1 + messages.length) % messages.length; updateDisplay(); }
+      function startTimer() { autoSlide = setInterval(showNext, 5000); }
+      function resetTimer() { clearInterval(autoSlide); startTimer(); }
+      
+      startTimer();
+      if (nextBtn) nextBtn.addEventListener('click', () => { showNext(); resetTimer(); });
+      if (prevBtn) prevBtn.addEventListener('click', () => { showPrev(); resetTimer(); });
+      if (container) {
+        container.addEventListener('mouseenter', () => clearInterval(autoSlide));
+        container.addEventListener('mouseleave', startTimer);
+      }
+
+      function openPopup(src, title) {
+        if (!src) return;
+        popupImage.src = src;
+        popupTitle.textContent = title || 'Announcement';
+        popupModal.classList.add('active');
+        clearInterval(autoSlide);
+      }
+      function closePopup() { popupModal.classList.remove('active'); startTimer(); }
+
+      messages.forEach(msg => {
+        msg.addEventListener('click', (e) => {
+          e.preventDefault();
+          openPopup(msg.dataset.popup, msg.dataset.title);
+        });
+      });
+      if (popupCloseBtn) popupCloseBtn.addEventListener('click', closePopup);
+      if (popupOverlay) popupOverlay.addEventListener('click', closePopup);
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popupModal.classList.contains('active')) closePopup();
+      });
+
+      // Hide alert bar on scroll
+      const alertRow = document.querySelector('.alert-row');
+      let lastScroll = 0;
+      window.addEventListener('scroll', () => {
+        const currentScroll = window.scrollY;
+        if (currentScroll > 50) {
+          alertRow.classList.add('hidden');
+        } else {
+          alertRow.classList.remove('hidden');
+        }
+        lastScroll = currentScroll;
+      }, { passive: true });
+    })();
     </script>
     
     <!-- Essential JavaScript for mobile menu and site functionality -->
@@ -969,7 +1018,7 @@
           </div>
           <div class="contact-item">
             <strong>Email:</strong>
-            <a href="mailto:info.aic@soa.sc.in">info.aic@soa.sc.in</a>
+            <a href="mailto:info.aic@soa.ac.in">info.aic@soa.ac.in</a>
           </div>
           <div class="contact-item">
             <strong>Phone:</strong>
@@ -1001,5 +1050,7 @@
     </div>
     <!-- Expert Video Modal JS -->
 
+    <!-- Main JS for carousels, counters, etc. -->
+    <script src="./aic.js"></script>
 </body>
 </html>

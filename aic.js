@@ -860,8 +860,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const headerTop = document.querySelector('.header-top');
         if (!headerTop) return;
 
-        // where to insert: under alert-bar if present, else after navbar
-        const alertBar = headerTop.querySelector('.alert-bar');
+        // where to insert: under alert-bar/alert-row if present, else after navbar
+        const alertBar = headerTop.querySelector('.alert-row') || headerTop.querySelector('.alert-bar');
         const navbar = headerTop.querySelector('.navbar');
 
         const insertAfter = alertBar || navbar;
