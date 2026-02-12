@@ -13,7 +13,7 @@ body {
 /* HERO */
 .hero {
   height: 420px;
-  margin-top: 140px; /* Clear fixed header + alert + breadcrumb */
+  margin-top: 115px; /* Clear fixed header */
   background: url("https://images.unsplash.com/photo-1521737604893-d14cc237f11d")
     center/cover no-repeat;
 }
@@ -282,7 +282,7 @@ body {
   /* Hero Section */
   .hero {
     height: 320px;
-    margin-top: 130px;
+    margin-top: 105px;
   }
   
   .hero h1 {
@@ -379,43 +379,13 @@ body {
     font-size: 14px;
   }
   
-  /* Mobile Menu Fixes */
-  .mobile-menu {
-    right: 0 !important;
-    left: auto !important;
-    width: min(320px, 92vw) !important;
-    max-width: 92vw !important;
-    box-sizing: border-box;
-  }
-
-  .menu-toggle {
-    position: fixed !important;
-    top: 10px !important;
-    right: calc(env(safe-area-inset-right, 12px) + 48px) !important;
-    margin-right: 0 !important;
-    padding: 10px !important;
-    border-radius: 8px !important;
-    z-index: 10001 !important;
-  }
-
-  .menu-toggle .bar { 
-    background-color: #1a237e !important; 
-  }
-
-  .mobile-menu-overlay { 
-    z-index: 9999 !important; 
-  }
-  
-  .mobile-menu { 
-    z-index: 10000 !important; 
-  }
 }
 
 /* Small Mobile */
 @media (max-width: 480px) {
   .hero {
     height: 280px;
-    margin-top: 125px;
+    margin-top: 100px;
   }
   
   .hero h1 {

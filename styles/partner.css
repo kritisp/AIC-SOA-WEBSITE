@@ -36,7 +36,7 @@
 .hero {
     width: 100%;
     height: 350px;
-    margin-top: 140px; /* Clear fixed header + alert + breadcrumb */
+    margin-top: 115px; /* Clear fixed header */
     background: url("../assets/PartnerImages/govtpartner-By5VF41h.jpg") center / cover no-repeat;
     display: flex;
     align-items: center;
@@ -168,7 +168,7 @@
 
   .hero {
     height: 220px;
-    margin-top: 130px;
+    margin-top: 105px;
   }
 
   .hero h1 {
@@ -196,7 +196,7 @@
 @media (max-width: 480px) {
   .hero {
     height: 180px;
-    margin-top: 125px;
+    margin-top: 100px;
   }
   
   .hero h1 {

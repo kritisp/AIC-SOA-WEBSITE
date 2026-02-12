@@ -8,7 +8,7 @@
 /* ================= HERO ================= */
 .hero {
     height: 320px;
-    margin-top: 140px; /* Clear fixed header + alert + breadcrumb */
+    margin-top: 115px; /* Clear fixed header */
     background: radial-gradient(circle at left, #0a4fa3, #030d3d);
     display: flex;
     align-items: center;
@@ -88,7 +88,7 @@
 @media (max-width: 768px) {
     .hero {
         height: 220px;
-        margin-top: 130px;
+        margin-top: 105px;
     }
     
     .hero h1 {
@@ -119,7 +119,7 @@
 @media (max-width: 480px) {
     .hero {
         height: 180px;
-        margin-top: 125px;
+        margin-top: 100px;
     }
     
     .hero h1 {
