@@ -1822,6 +1822,24 @@ body {
     flex-direction: column;
     align-items: center;
   }
+  .saga-slider-container {
+    height: 400px;
+    width: 100%;
+    max-width: 500px;
+  }
+  .saga-slides {
+    height: 400px;
+  }
+  .saga-slides img {
+    height: 100%;
+  }
+  .saga-text h1 {
+    font-size: 2rem;
+    margin-bottom: 30px;
+  }
+  .saga-item {
+    margin-bottom: 20px;
+  }
   .expert-card {
     flex-direction: column;
   }
@@ -1850,5 +1868,30 @@ body {
   }
   .testi-container {
     padding: 0 40px;
+  }
+  
+  /* Saga section mobile fixes */
+  .saga-section {
+    padding: 40px 15px;
+  }
+  .saga-slider-container {
+    height: 300px;
+    max-width: 100%;
+  }
+  .saga-slides {
+    height: 300px;
+  }
+  .saga-text h1 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+  }
+  .saga-item h3 {
+    font-size: 1.1rem;
+  }
+  .saga-item p {
+    font-size: 0.85rem;
+  }
+  .saga-item {
+    margin-bottom: 15px;
   }
 }
